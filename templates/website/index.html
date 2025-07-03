@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<section class="h-screen w-screen text-center" >
+		<h1 class="text-8xl">Välkommen till <br/> vikbolandsspelen</h1>
+	</section>
+	<section class="pt-12 container mx-auto h-screen flex flex-row gap-12 justify-around" >
+		<div class="flex flex-col items-center pt-32 h-full justify-around" >
+			<div class="flex flex-col gap-4" >
+				<h2 class="text-6xl " >{{latest.title}}</h2>
+				<p>{{latest.short_description}}</p>
+				<p>{{latest.description}}</p>
+			</div>
+			<a href="{% url 'event_detail' latest.slug %}" class=" rounded-lg w-full p-3 text-white bg-[#a09341] text-center" >Anmäll här</a>
+
+		</div>
+
+		<div class=" h-full flex items-center justify-center">
+			<img class="h-full" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
+		</div>
+	</section>
+{% endblock %}

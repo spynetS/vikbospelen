@@ -5,6 +5,7 @@ from django.urls import path
 from website.views import *
 
 urlpatterns = [
+    path("",index),
     path('forestallningar', events),
-    path('forestallningar/<slug:slug>', index, name="event_detail"),
+    path('forestallningar/<slug:slug>', event_details, name="event_detail"),
 ]
