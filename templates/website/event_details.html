@@ -23,6 +23,20 @@
 				</div>
 				{{event.location}}
 			</div>
+			{% load tz %}  {# Load timezone if you're using timezone-aware dates #}
+
+			{% now "Y-m-d" as today %}
+			{% with last_date=event.dates.first %}
+				{% if last_date and last_date.date|date:"Y-m-d" >= today %}
+					<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd46-QMIels-3biWIm9lDRFD6eKmRrzmbmYRT7vMfiPDVfqYw/viewform?embedded=true"
+							width="640" height="382" frameborder="0" marginheight="0" marginwidth="0">Läser in…</iframe>
+
+				{% endif %}
+			{% endwith %}
+
+
+
+
 		</div>
 	</div>
 	<div class="px-12 py-4" >

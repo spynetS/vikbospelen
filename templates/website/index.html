@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 	<section class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
-		<div class="bg-[#000000af] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
+		<div class="bg-[#00000085] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
 			<h1 class="text-7xl text-white italic">Välkommen till <br/> vikbolandsspelen</h1>
 			<p class="text-xl text-gray-400 mt-4" >Lokal kultur sedan 1983</p>
 
@@ -37,13 +38,14 @@
 				<div class="border-[#a09341] border-2 px-12 py-2 flex flex-col items-center gap-2" >
 					<img src="{{event.poster.url}}" alt="{{event.title}}" />
 					<p class="text-[#a09341] text-xl" >{{event.title}}</p>
-					<a href="{% url 'event_detail' latest.slug %}" class=" rounded-lg w-full p-2 text-white bg-[#a09341] text-center" >Anmäll här</a>
+					<a href="{% url 'event_detail' event.slug %}" class=" rounded-lg w-full p-2 text-white bg-[#a09341] text-center" >Se mer</a>
 				</div>
 			{% endfor %}
 		</div>
 	</section>
 
 	<section class="bg-[#9d0024] h-screen w-screen" >
+		<div class="fb-page" data-href="https://www.facebook.com/vikbolandsspelen" data-tabs="timeline" data-width="" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/vikbolandsspelen" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/vikbolandsspelen">Vikbolandsspelet</a></blockquote></div>
 
 	</section>
 {% endblock %}
