@@ -3,7 +3,8 @@ from events.models import *
 
 def index(request):
     latest = Event.objects.order_by('-id').first()
-    return render(request,"website/index.html",{"latest":latest})
+    last_3 = Event.objects.order_by('-id')[:3]
+    return render(request,"website/index.html",{"latest":latest,"last_3":last_3})
 
 def event_details(request, slug):
     event = Event.objects.get(slug=slug)

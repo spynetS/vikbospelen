@@ -1,13 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<section class="h-screen w-screen text-center" >
-		<h1 class="text-8xl">Välkommen till <br/> vikbolandsspelen</h1>
+	<section class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
+		<div class="bg-[#000000af] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
+			<h1 class="text-7xl text-white italic">Välkommen till <br/> vikbolandsspelen</h1>
+			<p class="text-xl text-gray-400 mt-4" >Lokal kultur sedan 1983</p>
+
+			<div class="flex flex-row gap-4 mt-12" >
+				<a class="rounded-lg p-3 text-white bg-[#a09341] text-center" href="/forestallningar">Senaste föreställningarna</a>
+				<a class="rounded-lg p-3 text-black bg-white text-center" href="/forestallningar">Se biljätter här</a>
+			</div>
+
+		</div>
 	</section>
+
 	<section class="pt-12 container mx-auto h-screen flex flex-row gap-12 justify-around" >
 		<div class="flex flex-col items-center pt-32 h-full justify-around" >
 			<div class="flex flex-col gap-4" >
-				<h2 class="text-6xl " >{{latest.title}}</h2>
+				<h2 class="text-6xl  " >{{latest.title}}</h2>
 				<p>{{latest.short_description}}</p>
 				<p>{{latest.description}}</p>
 			</div>
@@ -18,5 +28,22 @@
 		<div class=" h-full flex items-center justify-center">
 			<img class="h-full" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
 		</div>
+	</section>
+
+	<section class="h-screen w-screen bg-[#1a2545] pt-32 px-12" >
+		<h2 class="text-[#a09341] text-4xl text-center" >Senaste föreställningarna</h2>
+		<div class="grid grid-cols-3 gap-12" >
+			{% for event in last_3 %}
+				<div class="border-[#a09341] border-2 px-12 py-2 flex flex-col items-center gap-2" >
+					<img src="{{event.poster.url}}" alt="{{event.title}}" />
+					<p class="text-[#a09341] text-xl" >{{event.title}}</p>
+					<a href="{% url 'event_detail' latest.slug %}" class=" rounded-lg w-full p-2 text-white bg-[#a09341] text-center" >Anmäll här</a>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+
+	<section class="bg-[#9d0024] h-screen w-screen" >
+
 	</section>
 {% endblock %}
