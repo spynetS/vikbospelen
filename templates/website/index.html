@@ -3,7 +3,7 @@
 {% block content %}
 
 	<section id="hero" class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
-		<div class="bg-[#00000085] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
+		<div class="bg-[#00000025] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
 			<h1 class="text-7xl text-white italic">Välkommen till <br/> vikbolandsspelen</h1>
 			<p class="text-xl text-gray-400 mt-4" >Lokal kultur sedan 1983</p>
 
@@ -60,10 +60,9 @@
 	 const t2 = gsap.timeline({
 		 scrollTrigger: {
 			 trigger: "#first",
-			 start: "top top",
-			 end: "+=200%",
+			 start: "top center",
+			 end: "top top",
 			 scrub: true,
-			 pin: true,
 		 }
 	 });
 
