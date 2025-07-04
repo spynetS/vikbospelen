@@ -1,11 +1,29 @@
-<nav class="fixed top-0 h-18 w-screen flex flex-row justify-between bg-[#f0f0f0] z-20" >
-	<img onclick="window.location.href='/'" class="cursor-pointer h-18 w-18" src="/static/logo.png" alt="" />
-	<div class="flex flex-row items-center gap-12" >
-		<a href="/">Hem</ba>
-		<a href="/forestallningar">Föreställningen</a>
-		<a href="">Kontakta oss</a>
-		<a href="">Om oss</a>
-	</div>
-	<span></span>
-
+<nav id="site-nav" class=" fixed top-0 h-18 w-screen flex flex-row justify-between z-20 transition-transform duration-300 p-2">
+  <img onclick="window.location.href='/'" class="cursor-pointer h-full " src="/static/logo.png" alt="" />
+  <div class="flex flex-row items-center gap-12 text-gray-800 font-thin">
+    <a href="/">Hem</a>
+    <a href="/forestallningar">Föreställningen</a>
+    <a href="">Kontakta oss</a>
+    <a href="">Om oss</a>
+  </div>
+  <span></span>
 </nav>
+
+<script>
+ (function() {
+     const nav = document.getElementById('site-nav');
+     let lastScrollY = window.pageYOffset;
+
+     window.addEventListener('scroll', () => {
+		 const currentScrollY = window.pageYOffset;
+		 if (currentScrollY > lastScrollY && currentScrollY > 50) {
+			 // Scrolling down and past 50px → hide
+			 nav.classList.add('-translate-y-full');
+		 } else {
+			 // Scrolling up → show
+			 nav.classList.remove('-translate-y-full');
+		 }
+		 lastScrollY = currentScrollY;
+     });
+ })();
+</script>
