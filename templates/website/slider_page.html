@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+	<div class="container mx-auto pt-12 text-center">
+		<h1 class="text-4xl font-bold mb-2 mt-5">Föreställningar över tid</h1>
+
+		<div class="mb-2 max-w-xl mx-auto">
+
+			<!-- Range Slider -->
+			<input type="range" id="yearRange" name="year" min="1980" max="2025" value="2024"
+				   hx-get="{% url 'plays_over_time' %}"
+				   hx-target="#event-list"
+				   hx-trigger="input changed delay:100ms"
+				   class="w-full"
+				   oninput="document.getElementById('yearLabel').innerText = this.value">
+
+			<div class="text-gray-700 mt-2 text-center">
+				Valt år: <span id="yearLabel">2024</span>
+			</div>
+
+			<!-- Dots Timeline -->
+			<div class="flex items-center justify-center mt-6 space-x-2 overflow-x-auto">
+				{% for y in years_with_events %}
+					<div onclick="selectYear('{{ y }}')"
+						 class="w-3 h-3 rounded-full cursor-pointer
+								  {% if y|stringformat:'s' == request.GET.year %} bg-blue-600 {% else %} bg-gray-400 {% endif %}
+								  hover:bg-blue-500 transition-all"
+						 title="{{ y }}">
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+
+		<div id="event-list">
+			{% include "components/event_list.html" %}
+		</div>
+	</div>
+	<script>
+	 function selectYear(year) {
+		 const slider = document.getElementById('yearRange');
+		 slider.value = year;
+		 document.getElementById('yearLabel').innerText = year;
+
+		 // Trigger HTMX manually
+		 slider.dispatchEvent(new Event('input', { bubbles: true }));
+	 }
+	</script>
+{% endblock %}

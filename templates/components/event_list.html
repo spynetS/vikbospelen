@@ -1,0 +1,20 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-4">
+    {% for event in events %}
+        <div onclick="window.location.href='{% url 'event_detail' event.slug %}'" class="cursor-pointer text-left  rounded-lg p-4">
+            <img src="{{ event.poster.url }}" alt="{{ event.title }}" class="rounded mb-4 w-full object-cover">
+            <p class="text-xl font-semibold mb-1">{{ event.title }}</p>
+            {% with first_date=event.dates.first %}
+                {% if first_date %}
+                    <p class="text-sm text-gray-600">{{ first_date.date }}</p>
+                {% else %}
+                    <p class="text-sm text-gray-400">Inga datum</p>
+                {% endif %}
+            {% endwith %}
+			<button class="cursor-pointer border-1 rounded-lg py-1 mt-2 w-full" >
+				Se föreställningen
+			</button>
+        </div>
+    {% empty %}
+        <p class="col-span-full text-gray-600 text-center">Inga föreställningar för det året.</p>
+    {% endfor %}
+</div>

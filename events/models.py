@@ -9,6 +9,9 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     slug = models.SlugField()
 
+    def first_date(self):
+        return self.dates.order_by("date").first()
+
     def __str__(self):
         return self.title
 
