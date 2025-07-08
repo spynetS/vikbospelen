@@ -1,4 +1,4 @@
 #+title: Readme
 
 * Time spent
-12 timmar
+16 timmar
