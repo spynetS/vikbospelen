@@ -11,6 +11,9 @@ def index(request):
     last_3 = events_with_latest_date[:3]
     return render(request,"website/index.html",{"latest":latest,"last_3":last_3})
 
+def contact(request):
+    return render(request, "website/contact.html",{})
+
 def event_details(request, slug):
     event = Event.objects.get(slug=slug)
     return render(request,"website/event_details.html",{"event": event})

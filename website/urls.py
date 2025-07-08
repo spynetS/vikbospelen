@@ -6,6 +6,6 @@ from website.views import *
 
 urlpatterns = [
     path("",index),
-    #path('forestallningar', events),
+    path('kontakt', contact,name="contact"),
     path('forestallningar/<slug:slug>', event_details, name="event_detail"),
 ]

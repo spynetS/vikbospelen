@@ -1,0 +1,12 @@
+<div class="contact-form {{class}} rounded-lg bg-white p-6 text-center flex flex-col gap-5 items-center shadow-sm" >
+	<p class="text-3xl" >Kontakt formulär</p>
+	<p class="text-gray-800 text-md">Skriv dina uppgifter och din fråga så kommer vi höra av oss.</p>
+	<div class="grid grid-cols-2 gap-5 w-full" >
+		<input type="text" name="firstname" placeholder="John Doe" class="textfield" />
+		<input type="phone" name="phone" placeholder="070123456" class="textfield" />
+		<input type="email" name="email" placeholder="namn@gmail.com" class="textfield col-span-2" />
+		<input type="subject" name="" placeholder="Ämne" class="textfield col-span-2" />
+		<textarea placeholder="Fråga/beskrivning" name="message" rows="5" class="textfield col-span-2"></textarea>
+	</div>
+	<input  type="submit" class="btn btn-primary w-96" value="Skicka"/>
+</div>

@@ -1,0 +1,110 @@
+:root {
+  --color-bg: #ffffff;
+  --color-fg: #111827;
+  --color-border: #d1d5db;
+  --color-border-focus: #2563eb;
+  --color-placeholder: #9ca3af;
+  --color-shadow-focus: rgba(37, 99, 235, 0.25);
+  --radius: 0.5rem;
+  --padding: 0.75rem 1rem;
+  --font-family: system-ui, sans-serif;
+}
+
+
+.textfield-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+}
+
+.textfield-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-fg);
+}
+
+.textfield {
+  font-size: 1rem;
+  padding: var(--padding);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.textfield::placeholder {
+  color: var(--color-placeholder);
+}
+
+.textfield:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-shadow-focus);
+}
+
+.btn {
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;           /* Use inline-flex to size like inline element */
+  align-items: center;            /* Vertical centering */
+  justify-content: center;        /* Horizontal centering */
+  text-align: center;             /* Just in case */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.btn-primary {
+  background-color: #a09341;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #7a7242;
+}
+
+.btn-primary:active {
+  background-color: #6b632f;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transform: translateY(1px);
+  transition: none; /* disable transition on active for immediate effect */
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #333;
+  border: 2px solid #ccc;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+  color: #000;
+}
+
+.btn-secondary:active {
+  background-color: #e0e0e0;
+  border-color: #666;
+  transform: translateY(1px);
+  transition: none;
+}
+
+
+.plugin-wrapper {
+  width: 720px;
+  height: 960px; /* 600 * scale factor */
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+.scaled-plugin {
+  transform: scale(1.44); /* 800 / 500 = 1.6 */
+  transform-origin: top left;
+}
