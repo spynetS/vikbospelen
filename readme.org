@@ -1,4 +1,14 @@
 #+title: Readme
 
+* To deploy
+1. Change domain (server_name) in [[file:nginx/default.conf][default.conf]]
+2. Set DEBUG=False in [[file:vikbo/settings.py][settings.py]]
+3. Deploy with docker
+   #+begin_src bash
+sudo docker-compose up -d
+   #+end_src
+4. TODO
+   ssl certificate
+
 * Time spent
 16 timmar
