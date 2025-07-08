@@ -105,6 +105,5 @@
 }
 
 .scaled-plugin {
-  transform: scale(1.44); /* 800 / 500 = 1.6 */
   transform-origin: top left;
 }

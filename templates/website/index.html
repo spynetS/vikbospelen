@@ -4,7 +4,7 @@
 
 	<section id="hero" class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
 		<div class="bg-[#00000025] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
-			<h1 class="text-7xl text-white italic">Välkommen till <br/> vikbolandsspelen</h1>
+			<h1 class="md:text-7xl text-5xl text-white italic">Välkommen till <br/> vikbolandsspelen</h1>
 			<p class="text-xl text-gray-200 mt-4" >Lokal kultur sedan 1983</p>
 
 			<div class="flex flex-row gap-4 mt-12" >
@@ -42,17 +42,16 @@
     </script>
 
 
-	<section id="first" class="pt-12 container mx-auto h-screen flex flex-row gap-12 justify-around pb-4" >
+	<section id="first" class="pt-12 md:container w-screen px-12 md:px-0 md:mx-auto h-screen flex flex-row gap-12 justify-around pb-4" >
 		<div class="flex flex-col items-center pt-32 h-full justify-around" >
 			<div class="flex flex-col gap-4" >
 				<h2 class="title text-6xl  " >{{latest.title}}</h2>
 				<p class="description">{{latest.short_description}}</p>
 				<p class="description">{{latest.description}}</p>
 			</div>
-			<a href="{% url 'event_detail' latest.slug %}" class="button rounded-lg w-full p-3 text-white bg-[#a09341] text-center" >Anmäll här</a>
-
+			<a href="{% url 'event_detail' latest.slug %}" class="btn btn-primary w-full" >Anmäll här</a>
 		</div>
-		<img class="h-full" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
+		<img class="md:flex hidden h-full" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
 
 	</section>
 
@@ -94,9 +93,9 @@
 	   }, "-=0.2");
 	</script>
 
-	<section id="newest" class="h-screen w-screen bg-[#1a2545] py-12 px-12" >
+	<section id="newest" class="min-h-screen w-screen bg-[#1a2545] py-12 px-12" >
 		<h2 class="text-[#a09341] text-4xl text-center" >Senaste föreställningarna</h2>
-		<div class="grid grid-cols-3 gap-12 pb-12" >
+		<div class="md:grid md:grid-cols-3 flex flex-col gap-12 pb-12" >
 			{% for event in last_3 %}
 				<div class="event border-[#a09341] border-2 px-12 py-2 flex flex-col items-center gap-2" >
 					<img src="{{event.poster.url}}" alt="{{event.title}}" />
@@ -144,13 +143,13 @@
 	<section id="news" class="bg-[#9d0024] h-screen w-screen flex flex-col items-center gap-5" >
 		<h2 class="mt-18 text-white text-5xl" >Nyheter</h2>
 		<p class="text-white">Nyheter från våran facebook sida</p>
-		<div class="plugin-wrapper">
-			<div class="scaled-plugin">
-				<div class="fb-page"
+		<div class=" md:w-[720px] h-[960px] overflow-hidden origin-top-left">
+			<div class="scaled-plugin md:scale-[144%]">
+				<div class="fb-page  "
 					 data-href="https://www.facebook.com/vikbolandsspelen"
 					 data-tabs="timeline"
 					 data-width="500"
-					 data-height="600"
+					 data-height="900"
 					 data-small-header="true"
 					 data-adapt-container-width="false"
 					 data-hide-cover="true"
@@ -164,46 +163,46 @@
 	</section>
 
 	<section id="contact" class="bg-[#a09341] w-screen h-screen" >
-		<div class="container mx-auto grid grid-cols-2 pt-18 items-center h-full" >
-			<div class="h-full pt-18" >
-				{% include "components/contact_form.html" with class="w-[600px] " %}
+		<div class="container mx-auto md:grid md:grid-cols-2 pt-18 items-center h-full text-center md:text-start flex flex-col items-center" >
+			<div class="flex flex-col gap-2 md:gap-5 md:h-full md:pt-18 ">
+				<h2 id="kont" class="md:text-5xl text-2xl">Kontakta oss</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			</div>
 
-			<div class="flex flex-col gap-5 h-full pt-18">
-				<h2 id="kont" class="text-5xl">Kontakta oss</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<div class="md:h-full md:pt-18 pt-5 "  >
+				{% include "components/contact_form.html" with class="w-[600px] " %}
 			</div>
 		</div>
 	</section>
 
 	<script>
-	 gsap.registerPlugin(ScrollTrigger);
-
-	 const contact = gsap.timeline({
-		 scrollTrigger: {
-			 trigger: "#contact",
-			 start: "top center",
-			 end: "+=50%",
-			 scrub: true,
-		 }
-	 });
-
-	 // Animate the title first
-	 contact.from("#contact h2", {
-		 x: () => window.innerWidth / 2 - document.querySelector("#contact h2").offsetLeft + 100,
-		 y: 40,
-		 duration: 1,
-		 scale:2,
-		 ease: "power2.out"
-	 });
-	 contact.from("#contact p",{
-		 opacity:0,
-		 y:40,
-	 })
-	 contact.from(".contact-form",{
-		 scale:0,
-	 })
-
+//	 gsap.registerPlugin(ScrollTrigger);
+//
+//	 const contact = gsap.timeline({
+//		 scrollTrigger: {
+//			 trigger: "#contact",
+//			 start: "top center",
+//			 end: "+=50%",
+//			 scrub: true,
+//		 }
+//	 });
+//
+//	 // Animate the title first
+//	 contact.from("#contact h2", {
+//		 x: () => window.innerWidth / 2 - document.querySelector("#contact h2").offsetLeft + 100,
+//		 y: 40,
+//		 duration: 1,
+//		 scale:2,
+//		 ease: "power2.out"
+//	 });
+//	 contact.from("#contact p",{
+//		 opacity:0,
+//		 y:40,
+//	 })
+//	 contact.from(".contact-form",{
+//		 scale:0,
+//	 })
+//
 
 	</script>
 
