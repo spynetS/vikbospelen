@@ -1,29 +1,11 @@
-<nav id="site-nav" class=" fixed top-0 h-18 w-screen flex flex-row justify-between z-20 transition-transform duration-300 p-2">
+<nav id="site-nav" class=" fixed top-0 h-18 w-screen bg-white flex flex-row justify-between z-20 transition-transform duration-300 p-2">
   <img onclick="window.location.href='/'" class="flex cursor-pointer h-full " src="/static/logo.png" alt="" />
   <div class="flex flex-row items-center md:gap-12 gap-4 text-gray-800 font-thin">
     <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="/">Hem</a>
-    <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="/forestallningar">Föreställningen</a>
+    <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="/forestallningar">Kommande föreställningar</a>
     <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="/kontakt">Kontakta oss</a>
     <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="">Om oss</a>
+    <a class="hover:text-black hover:-translate-y-0.5 duration-150 text-black" href="/admin">Login</a>
   </div>
   <span class=""></span>
 </nav>
-
-<script>
- (function() {
-     const nav = document.getElementById('site-nav');
-     let lastScrollY = window.pageYOffset;
-
-     window.addEventListener('scroll', () => {
-		 const currentScrollY = window.pageYOffset;
-		 if (currentScrollY > lastScrollY && currentScrollY > 50) {
-			 // Scrolling down and past 50px → hide
-			 nav.classList.add('-translate-y-full');
-		 } else {
-			 // Scrolling up → show
-			 nav.classList.remove('-translate-y-full');
-		 }
-		 lastScrollY = currentScrollY;
-     });
- })();
-</script>
