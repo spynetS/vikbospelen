@@ -8,4 +8,5 @@ urlpatterns = [
     path("",index),
     path('kontakt', contact,name="contact"),
     path('forestallningar/<slug:slug>', event_details, name="event_detail"),
+    path('om-oss',aboutus,name="om-oss"),
 ]

@@ -25,3 +25,6 @@ def events(request):
 
 
     return render(request, "website/events.html", {"events": events_with_latest_date})
+
+def aboutus(request):
+    return render(request,"website/aboutus.html",{})
