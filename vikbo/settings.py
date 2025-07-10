@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "website",
     "events",
+    "mail",
 
 ]
 
@@ -174,3 +175,12 @@ JAZZMIN_SETTINGS = {
     "hide_apps": ["sites"],
     "hide_models": ["auth.token"],
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+INBOX_EMAIL = os.environ['INBOX_EMAIL']
