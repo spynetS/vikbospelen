@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "website",
     "events",
+    "mail",
 
 ]
 
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'sv'
 
 TIME_ZONE = 'UTC'
 
@@ -133,3 +134,53 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Vikbolandsspelet Admin Portal",
+    "site_header": "Vikbolandsspelet",
+    "site_brand": "Vikbolandsspelet",
+    "welcome_sign": "Välkomen till Adminportalen",
+
+    "topmenu_links":[
+        {"name": "Home",  "url": "/", "permissions": ["auth.view_user"]},
+    ],
+
+    "custom_links": {
+        "auth": [
+            {
+                "name": "Reset Password",
+                "url": "auth:password_reset",
+                "icon": "fas fa-key",
+                "permissions": ["auth.view_user"],
+            }
+        ]
+    },
+
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "events.event": "fas fa-calendar-alt",
+        "events.eventdate": "fas fa-clock",
+    },
+
+    "order_with_respect_to": ["auth", "events"],
+
+    # You can override app or model labels too
+    "custom_model_labels": {
+        "events.event": "Evenemang",
+        "events.eventdate": "Datum & Tid",
+    },
+
+    # Hide apps or models
+    "hide_apps": ["sites"],
+    "hide_models": ["auth.token"],
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+INBOX_EMAIL = os.environ['INBOX_EMAIL']

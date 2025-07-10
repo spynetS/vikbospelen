@@ -9,28 +9,39 @@
 
 		<img class="h-full pb-24" src="{{event.poster.url}}" alt="" />
 	</div>
-	<div class="px-12 py-5 h-[50%] bg-[#1a2545] " >
+	<div class="px-12 py-5 h-[50%] bg-[#1a2545] min-h-[500px]" >
 		<h2 class="text-5xl text-[#a09341] mb-4">Om föreställningen</h2>
 		<div class="md:grid md:grid-cols-3 flex flex-col gap-5">
 			<p class="text-white" >{{event.description}}</p>
-			<div class="text-white grid grid-cols-2 gap-5" >
-				<p>Spelperiod</p>
-				<p>Plats</p>
-				<div class="flex flex-row gap-2" >
-					{% for date in event.dates.all %}
-						<p>{{ date.date }}</p>
-					{% endfor %}
-				</div>
-				{{event.location}}
-			</div>
-			{% load tz %}  {# Load timezone if you're using timezone-aware dates #}
+			<div class="text-white flex flex-col gap-5 " >
+				<div class="flex flex-row items-between" >
+					<div class="w-1/2" >
+						<p class="font-bold mb-2">Spelperiod</p>
+						<div class="flex flex-wrap gap-2 ">
+							{% for date in event.dates.all %}
+								<p class="bg-blue-900 p-1 rounded-full" >{{ date.datetime|date:"Y-m-d H:i" }}</p>
+							{% endfor %}
+						</div>
+					</div>
 
+					<div>
+						<p class="font-bold mb-1">Plats</p>
+						{{event.location}}
+					</div>
+				</div>
+
+				<div class="flex flex-row gap-2" >
+					<p class="font-bold mb-1">Pris</p>
+										<p>{{ event.price|floatformat:0 }} kr</p>
+				</div>
+			</div>
+			{% load tz %}
 			{% now "Y-m-d" as today %}
-			{% with last_date=event.dates.first %}
-				{% if last_date and last_date.date|date:"Y-m-d" >= today %}
+
+			{% with last_date=event.dates.all|dictsort:"datetime"|first %}
+				{% if last_date and last_date.datetime|date:"Y-m-d" >= today %}
 					<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd46-QMIels-3biWIm9lDRFD6eKmRrzmbmYRT7vMfiPDVfqYw/viewform?embedded=true"
 								 width="100%" height="382" frameborder="0" marginheight="0" marginwidth="0">Läser in…</iframe>
-
 				{% endif %}
 			{% endwith %}
 
@@ -39,77 +50,79 @@
 
 		</div>
 	</div>
-	<div class="px-12 py-4" >
-		<h2 class="text-5xl  text-gray-800" >Media från föreställningen</h2>
-		<!-- Gallery -->
-		<div class="flex flex-wrap justify-center md:justify-start gap-5 mt-9">
-			{% for media in event.media.all %}
-				{% if media.media_type == 'image' %}
-					<img
-						class="rounded-lg h-[400px] cursor-pointer hover:scale-[1.01] duration-150"
-							   src="{{ media.file.url }}"
-							   alt="{{ media.caption }}"
-							   onclick="openModal({{ forloop.counter0 }})"
-					/>
-				{% endif %}
-			{% endfor %}
-		</div>
+	{% if event.media.all %}
+		<div class="px-12 py-4" >
+			<h2 class="text-5xl  text-gray-800" >Media från föreställningen</h2>
+			<!-- Gallery -->
+			<div class="flex flex-wrap justify-center md:justify-start gap-5 mt-9">
+				{% for media in event.media.all %}
+					{% if media.media_type == 'image' %}
+						<img
+							class="rounded-lg h-[400px] cursor-pointer hover:scale-[1.01] duration-150"
+							src="{{ media.file.url }}"
+							alt="{{ media.caption }}"
+							onclick="openModal({{ forloop.counter0 }})"
+						/>
+					{% endif %}
+				{% endfor %}
+			</div>
 
-		<!-- Modal -->
-		<div id="modal" class="fixed inset-0 bg-[#000000bf] bg-opacity-80 flex items-center justify-center z-50 hidden">
-			<button class="absolute top-4 right-4 text-white font-bold text-5xl hover:scale-[1.2] duration-150" onclick="closeModal()">×</button>
-			<div class="relative max-w-4xl w-full">
-				<img id="modalImage" class="mx-auto rounded-lg max-h-[90vh]" src="" alt="Modal Image" />
-				<div class="absolute top-1/2 left-0 transform -translate-y-1/2">
-					<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="prevImage()">❮</button>
-				</div>
-				<div class="absolute top-1/2 right-0 transform -translate-y-1/2">
-					<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="nextImage()">❯</button>
-				</div>
+	{% endif %}
+	<!-- Modal -->
+	<div id="modal" class="fixed inset-0 bg-[#000000bf] bg-opacity-80 flex items-center justify-center z-50 hidden">
+		<button class="absolute top-4 right-4 text-white font-bold text-5xl hover:scale-[1.2] duration-150" onclick="closeModal()">×</button>
+		<div class="relative max-w-4xl w-full">
+			<img id="modalImage" class="mx-auto rounded-lg max-h-[90vh]" src="" alt="Modal Image" />
+			<div class="absolute top-1/2 left-0 transform -translate-y-1/2">
+				<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="prevImage()">❮</button>
+			</div>
+			<div class="absolute top-1/2 right-0 transform -translate-y-1/2">
+				<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="nextImage()">❯</button>
 			</div>
 		</div>
-
-		<!-- JavaScript -->
-		<script>
-		 const images = [
-			 {% for media in event.media.all %}
-			 {% if media.media_type == 'image' %}
-			 "{{ media.file.url }}",
-			 {% endif %}
-			 {% endfor %}
-		 ];
-
-		 let currentIndex = 0;
-
-		 function openModal(index) {
-			 currentIndex = index;
-			 document.getElementById('modal').classList.remove('hidden');
-			 updateModalImage();
-		 }
-
-		 function closeModal() {
-			 document.getElementById('modal').classList.add('hidden');
-		 }
-
-		 function updateModalImage() {
-			 const modalImage = document.getElementById('modalImage');
-			 modalImage.src = images[currentIndex];
-		 }
-
-		 function nextImage() {
-			 currentIndex = (currentIndex + 1) % images.length;
-			 updateModalImage();
-		 }
-
-		 function prevImage() {
-			 currentIndex = (currentIndex - 1 + images.length) % images.length;
-			 updateModalImage();
-		 }
-
-		 // Optional: close modal on ESC key
-		 document.addEventListener('keydown', function (e) {
-			 if (e.key === 'Escape') closeModal();
-		 });
-		</script>
 	</div>
+
+	<!-- JavaScript -->
+	<script>
+	 const images = [
+		 {% for media in event.media.all %}
+		 {% if media.media_type == 'image' %}
+		 "{{ media.file.url }}",
+		 {% endif %}
+		 {% endfor %}
+	 ];
+
+	 let currentIndex = 0;
+
+	 function openModal(index) {
+		 currentIndex = index;
+		 document.getElementById('modal').classList.remove('hidden');
+		 updateModalImage();
+	 }
+
+	 function closeModal() {
+		 document.getElementById('modal').classList.add('hidden');
+	 }
+
+	 function updateModalImage() {
+		 const modalImage = document.getElementById('modalImage');
+		 modalImage.src = images[currentIndex];
+	 }
+
+	 function nextImage() {
+		 currentIndex = (currentIndex + 1) % images.length;
+		 updateModalImage();
+	 }
+
+	 function prevImage() {
+		 currentIndex = (currentIndex - 1 + images.length) % images.length;
+		 updateModalImage();
+	 }
+
+	 // Optional: close modal on ESC key
+	 document.addEventListener('keydown', function (e) {
+		 if (e.key === 'Escape') closeModal();
+	 });
+	</script>
+		</div>
 {% endblock %}

@@ -1,15 +1,26 @@
 from django.shortcuts import render
 from events.models import *
-from django.db.models import Max
+from django.db.models import Min
+from django.utils import timezone
 
 def index(request):
-    events_with_latest_date = Event.objects.annotate(
-        latest_date=Max('dates__date')
-    ).filter(latest_date__isnull=False).order_by('-latest_date')
+    now = timezone.now()
 
-    latest =events_with_latest_date.first()
-    last_3 = events_with_latest_date[:3]
-    return render(request,"website/index.html",{"latest":latest,"last_3":last_3})
+    # Only include events that have at least one future date
+    events_with_next_date = Event.objects.filter(
+        dates__datetime__gte=now
+    ).annotate(
+        next_date=Min('dates__datetime')
+    ).order_by('next_date')
+
+    next_event = events_with_next_date.first()
+    upcoming_3 = events_with_next_date[:3]
+
+    return render(request, "website/index.html", {
+        "latest": next_event,
+        "last_3": upcoming_3,
+        "now": now
+    })
 
 def contact(request):
     return render(request, "website/contact.html",{})
@@ -20,8 +31,11 @@ def event_details(request, slug):
 
 def events(request):
     events_with_latest_date = Event.objects.annotate(
-        latest_date=Max('dates__date')
+        latest_date=Max('dates__datetime')
     ).filter(latest_date__isnull=False).order_by('-latest_date')
 
 
     return render(request, "website/events.html", {"events": events_with_latest_date})
+
+def aboutus(request):
+    return render(request,"website/aboutus.html",{})

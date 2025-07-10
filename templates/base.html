@@ -10,22 +10,59 @@
         <link rel="apple-touch-icon" href="/static/logo.png">
 		<link rel="icon" href="/static/logo.png" type="image/x-icon">
 
+		<div id="fb-root"></div>
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v23.0"></script>
+
+
 		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 		<link rel="stylesheet" href="/static/main.css" type="text/css" media="screen" />
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-		<div id="fb-root"></div>
-		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v23.0"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 		<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
 		<script src="https://unpkg.com/htmx.org@1.9.2"></script>
 
     </head>
-    <body class="min-h-screen bg-[#f0f0f0] " style="font-family: 'DM Serif Display', serif;">
+    <body class="min-h-screen bg-[#f0f0f0] " style="font-family: 'DM Serif Display', serif;" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+		<script>
+		 // script to prevent submitint while a request is sent
+		 document.body.addEventListener('htmx:beforeRequest', (event) => {
+			 if (event.target.tagName === 'FORM') {
+				 const submit = event.target.querySelector('input[type="submit"], button[type="submit"]');
+				 if (submit) {
+					 submit.disabled = true;
+					 submit.dataset.originalValue = submit.value;
+					 submit.value = 'Skickar...'; // Change button text if you want
+				 }
+			 }
+		 });
+
+		 document.body.addEventListener('htmx:afterRequest', (event) => {
+			 if (event.target.tagName === 'FORM') {
+				 const submit = event.target.querySelector('input[type="submit"], button[type="submit"]');
+				 if (submit) {
+					 submit.disabled = false;
+					 if (submit.dataset.originalValue) {
+						 submit.value = submit.dataset.originalValue;
+						 delete submit.dataset.originalValue;
+					 }
+				 }
+			 }
+		 });
+
+		 // Also re-enable if request fails or is aborted
+		 document.body.addEventListener('htmx:responseError', (event) => {
+			 if (event.target.tagName === 'FORM') {
+				 const submit = event.target.querySelector('input[type="submit"], button[type="submit"]');
+				 if (submit) submit.disabled = false;
+			 }
+		 });
+		</script>
+
+
 		<script type="text/javascript">
 
 

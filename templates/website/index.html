@@ -42,16 +42,25 @@
     </script>
 
 
-	<section id="first" class="pt-12 md:container w-screen px-12 md:px-0 md:mx-auto h-screen flex flex-row gap-12 justify-around pb-4" >
+	<section id="first" class="pt-12 md:container w-screen px-12 md:px-0 md:mx-auto h-screen flex flex-row gap-12 justify-around pb-4 items-center" >
 		<div class="flex flex-col items-center pt-32 h-full justify-around" >
-			<div class="flex flex-col gap-4" >
+			<div class="flex flex-col gap-2" >
 				<h2 class="title text-6xl  " >{{latest.title}}</h2>
+				<p class="description text-gray-600">
+					{% with next_date=latest.get_next_date %}
+						{% if next_date %}
+							{{ next_date.datetime|date:"Y-m-d H:i" }}
+						{% else %}
+							Ingen kommande datum
+						{% endif %}
+					{% endwith %}
+				</p>
 				<p class="description">{{latest.short_description}}</p>
 				<p class="description">{{latest.description}}</p>
 			</div>
 			<a href="{% url 'event_detail' latest.slug %}" class="btn btn-primary w-full" >Se mer</a>
 		</div>
-		<img class="md:flex hidden h-full" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
+		<img class="md:flex h-fit hidden max-w-1/2" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
 
 	</section>
 
