@@ -2,14 +2,21 @@
 {% load static %}
 
 {% block content %}
-	<div class="container mx-auto pt-12 text-center">
+	<div class="container mx-auto pt-12 text-center mt-18">
 		<h1 class="text-4xl font-bold mb-2 mt-5">Föreställningar över tid</h1>
 
 		<div class="mb-2 max-w-xl mx-auto">
-
+			<input type="search" name="search" value="" placeholder="Sök"
+				   class='textfield h-8'
+				   hx-get="{% url 'plays_over_time' %}"
+				   hx-push-url="true"
+				   hx-target="#event-list"
+				   hx-trigger="input changed delay:100ms"
+			/>
 			<!-- Range Slider -->
 			<input type="range" id="yearRange" name="year" min="1980" max="2025" value="2024"
 				   hx-get="{% url 'plays_over_time' %}"
+				   hx-push-url="true"
 				   hx-target="#event-list"
 				   hx-trigger="input changed delay:100ms"
 				   class="w-full"

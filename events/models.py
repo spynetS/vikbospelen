@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.utils.text import slugify
 
 class Event(models.Model):
     title = models.CharField("Titel", max_length=255)
@@ -9,13 +9,23 @@ class Event(models.Model):
     description = models.TextField("Beskrivning")
     price = models.DecimalField("Pris", max_digits=10, decimal_places=2)
     location = models.CharField("Plats", max_length=255)
-    slug = models.SlugField("Slug")
-
+    slug = models.SlugField("Slug",unique=True, blank=True, help_text="sökväg i webbläsaren (kan lämnas tom)")
+    published = models.BooleanField(
+        "Publicerad",
+        default=True,
+        help_text="Markera om objektet ska vara publicerat"
+    )
     def first_date(self):
         return self.dates.order_by("datetime").first()
 
     def __str__(self):
-        return self.title
+        return self.title or "No Title"
+
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Evenemang"
@@ -33,7 +43,9 @@ class EventDate(models.Model):
         verbose_name_plural = "Datum"
 
     def __str__(self):
-        return f"{self.datetime.strftime('%Y-%m-%d %H:%M')} för {self.event.title}"
+        datetime_str = self.datetime.strftime('%Y-%m-%d %H:%M') if self.datetime else "No date"
+        title_str = self.event.title if self.event and self.event.title else "No title"
+        return f"{datetime_str} för {title_str}"
 
 class EventMedia(models.Model):
     MEDIA_TYPE_CHOICES = [
@@ -51,4 +63,4 @@ class EventMedia(models.Model):
         verbose_name_plural = "Medier"
 
     def __str__(self):
-        return f"{self.get_media_type_display()} för {self.event.title}"
+        return f"{self.get_media_type_display()} för {self.event.title}" or "Nope"

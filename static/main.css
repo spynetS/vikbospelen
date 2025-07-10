@@ -9,7 +9,9 @@
   --padding: 0.75rem 1rem;
   --font-family: system-ui, sans-serif;
 }
-
+p{
+  font-family: serif;
+}
 
 .textfield-wrapper {
   display: flex;
@@ -45,10 +47,11 @@
 }
 
 .btn {
+  font-family:serif;
   border-radius: 10px;
   padding: 0.5rem 1rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1rem;
   border: none;
   cursor: pointer;

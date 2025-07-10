@@ -4,11 +4,11 @@
 
 	<section id="hero" class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
 		<div class="bg-[#00000025] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
-			<h1 class="md:text-7xl text-5xl text-white italic">Välkommen till <br/> föreningen Vikbolandsspelet</h1>
-			<p class="text-xl text-gray-200 mt-4" >Lokal kultur sedan 1983</p>
+			<h1 class="md:text-7xl text-5xl text-white italic text-shadow-xl">Välkommen till <br/> föreningen Vikbolandsspelet</h1>
+			<p class="text-xl text-gray-200 mt-4 font-serif" >Lokal kultur sedan 1983</p>
 
 			<div class="flex flex-row gap-4 mt-12" >
-				<a class="btn btn-primary" href="/forestallningar">Senaste föreställningarna</a>
+				<button class="btn btn-primary" id="newestbtn" >Kommande föreställningar</button>
 				<a class="btn btn-secondary" href="#news">Nyheter</a>
 			</div>
 		</div>
@@ -37,7 +37,14 @@
                  duration: 0.6,
                  stagger: 0.2,
                  ease: "power2.out"
-             }, "-=0.4");
+             }, "-=0.4")
+		 .from("#hero button", {
+             y: 40,
+             opacity: 0,
+             duration: 0.6,
+             stagger: 0.2,
+             ease: "power2.out"
+         }, "-=0.4");
      });
     </script>
 
@@ -45,6 +52,7 @@
 	<section id="first" class="pt-12 md:container w-screen px-12 md:px-0 md:mx-auto h-screen flex flex-row gap-12 justify-around pb-4 items-center" >
 		<div class="flex flex-col items-center pt-32 h-full justify-around" >
 			<div class="flex flex-col gap-2" >
+				{% if latest %}
 				<h2 class="title text-6xl  " >{{latest.title}}</h2>
 				<p class="description text-gray-600">
 					{% with next_date=latest.get_next_date %}
@@ -61,7 +69,7 @@
 			<a href="{% url 'event_detail' latest.slug %}" class="btn btn-primary w-full" >Se mer</a>
 		</div>
 		<img class="md:flex h-fit hidden max-w-1/2" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
-
+		{% endif %}
 	</section>
 
 	<script type="text/javascript">
@@ -103,13 +111,23 @@
 	</script>
 
 	<section id="newest" class="min-h-screen w-screen bg-[#1a2545] py-12 px-12" >
-		<h2 class="text-[#a09341] text-4xl text-center" >Senaste föreställningarna</h2>
+		<h2 class="text-[#a09341] text-4xl text-center" >Kommande föreställningar</h2>
 		<div class="md:grid md:grid-cols-3 flex flex-col gap-12 pb-12" >
 			{% for event in last_3 %}
 				<div class="event border-[#a09341] border-2 px-12 py-2 flex flex-col items-center gap-2" >
 					<img src="{{event.poster.url}}" alt="{{event.title}}" />
+
 					<p class="text-[#a09341] text-3xl" >{{event.title}}</p>
 					<div class="h-full w-full flex flex-col justify-end" >
+						<p class="text-[#a09341] " >
+							{% with next_date=event.get_next_date %}
+								{% if next_date %}
+									{{ next_date.datetime|date:"Y-m-d H:i" }}
+								{% else %}
+									Ingen kommande datum
+								{% endif %}
+							{% endwith %}
+						</p>
 						<a href="{% url 'event_detail' event.slug %}" class=" rounded-lg w-full p-2 text-white bg-[#a09341] text-center" >Se mer</a>
 					</div>
 				</div>
@@ -146,14 +164,23 @@
 		 duration: 1,
 		 ease: "power2.out"
 	 }, "-=0.5"); // overlap start a bit with the title animation
+
+	 document.getElementById('newestbtn').addEventListener('click', () => {
+		   const scrollTrigger = tl.scrollTrigger;
+  window.scrollTo({
+		 top: scrollTrigger.end,
+		 behavior: "smooth"
+	 });
+	 });
+
 	</script>
 
 
 	<section id="news" class="bg-[#9d0024] h-screen w-screen flex flex-col items-center gap-5" >
 		<h2 class="mt-18 text-white text-5xl" >Nyheter</h2>
 		<p class="text-white">Nyheter från våran facebook sida</p>
-		<div class=" w-[340px] md:w-[720px] h-[900px] overflow-hidden origin-top-left">
-			<div class="scaled-plugin scale-[68%] md:scale-[144%]">
+		<div class=" w-[340px] md:w-[520px] h-[900px] overflow-hidden origin-top-left">
+			<div class="scaled-plugin scale-[68%] md:scale-[104%]">
 				<div class="fb-page  "
 					 data-href="https://www.facebook.com/vikbolandsspelen"
 					 data-tabs="timeline"
@@ -171,11 +198,11 @@
 		</div>
 	</section>
 
-	<section id="contact" class="px-8 py-2 md:p-0 bg-[#a09341] w-screen min-h-screen" >
+	<section id="contact" class="px-8 py-2 md:p-0 bg-[#a09341] w-screen " >
 		<div class=" md:container md:mx-auto md:grid md:grid-cols-2 pt-18 items-center h-full text-center md:text-start flex flex-col items-center" >
 			<div class="flex flex-col gap-2 md:gap-5 md:h-full md:pt-18 ">
 				<h2 id="kont" class="md:text-5xl text-2xl">Kontakta oss</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Har du en fråga, ett förslag eller vill du bara komma i kontakt med oss? Använd kontaktformuläret nedan så återkommer vi till dig så snart vi kan. Vi ser fram emot att höra från dig – oavsett om det gäller föreställningar, samarbeten, bokningar eller något helt annat.</p>
 			</div>
 
 			<div class="md:h-full md:pt-18 pt-5 w-full"  >

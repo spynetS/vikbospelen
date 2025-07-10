@@ -1,16 +1,24 @@
 from django.shortcuts import render
-
-from django.shortcuts import render
 from .models import Event
 from django.db.models.functions import ExtractYear
-from django.db.models import Count
+from django.db.models import Count, Q
 
 def plays_over_time(request):
     year = request.GET.get("year")
+    search = request.GET.get("search", "").strip()
+
+    events = Event.objects.all()
+
     if year:
-        events = Event.objects.filter(dates__date__year=year).distinct()
-    else:
-        events = Event.objects.all()
+        events = events.filter(dates__datetime__year=year)
+
+    if search:
+        events = events.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    events = events.distinct()
 
     # Get all years with at least one event
     years_with_events = (
@@ -25,6 +33,7 @@ def plays_over_time(request):
     context = {
         "events": events,
         "years_with_events": years_with_events,
+        "search": search,
     }
 
     if request.headers.get("HX-Request"):
