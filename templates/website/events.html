@@ -5,15 +5,15 @@
 		<div class="">
 			<h2 class="text-3xl text-gray-800 text-center mb-8">Tidslinje över föreställningar</h2>
 			<div id="timeline" class="relative flex items-center overflow-x-auto border-t border-gray-300 py-8 px-4 space-x-12 snap-x snap-mandatory">
-				{% for event in events.all %}
-					{% with first_date=event.dates.first %}
+				{% for event in events %}
+					{% with first_date=event.dates.all.0 %}
 						{% if first_date %}
 							<div
 								class="flex flex-col items-center snap-center cursor-pointer group"
-								onclick="scrollToEvent('{{ event.slug }}')"
+									   onclick="scrollToEvent('{{ event.slug }}')"
 							>
 								<div class="w-5 h-5 rounded-full bg-blue-500 group-hover:bg-blue-700 transition-all"></div>
-								<p class="mt-2 text-sm text-gray-700 whitespace-nowrap">{{ first_date.date|date:"Y-m-d" }}</p>
+								<p class="mt-2 text-sm text-gray-700 whitespace-nowrap">{{ first_date.datetime|date:"Y-m-d" }}</p>
 							</div>
 						{% endif %}
 					{% endwith %}
@@ -21,23 +21,25 @@
 			</div>
 		</div>
 		<div class="grid grid-cols-3 gap-[200px]" >
-			{% for event in events.all %}
-				<div id="{{ event.slug }}" onclick="window.location.href='{% url 'event_detail' event.slug %}'" class=" cursor-pointer hover:-translate-y-2 duration-150 " >
-					<img class="" src="{{event.poster.url}}" alt="" />
-					<p class="text-2xl text-start" >{{event.title}}</p>
+			{% for event in events %}
+				<div id="{{ event.slug }}" onclick="window.location.href='{% url 'event_detail' event.slug %}'" class="cursor-pointer hover:-translate-y-2 duration-150">
+					<img src="{{ event.poster.url }}" alt="{{ event.title }}" />
+					<p class="text-2xl text-start">{{ event.title }}</p>
 
-					{% with first_date=event.dates.first %}
-						{% if first_date %}
-							<p class="text-sm text-start text-gray-700q" >{{first_date.date}}</p>
+					{% with sorted_dates=event.dates.all|dictsort:"datetime" %}
+						{% if sorted_dates %}
+							<p class="text-sm text-start text-gray-700">{{ sorted_dates.0.datetime|date:"Y-m-d H:i" }}</p>
 						{% else %}
 							<p>Inga datum tillgängliga</p>
 						{% endif %}
 					{% endwith %}
+
 					<button>
 						Se föreställningen
 					</button>
 				</div>
 			{% endfor %}
+
 		</div>
 	</div>
 

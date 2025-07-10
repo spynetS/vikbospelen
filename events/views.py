@@ -15,7 +15,7 @@ def plays_over_time(request):
     # Get all years with at least one event
     years_with_events = (
         Event.objects
-        .annotate(year=ExtractYear("dates__date"))
+        .annotate(year=ExtractYear("dates__datetime"))
         .values("year")
         .annotate(count=Count("id"))
         .order_by("year")
