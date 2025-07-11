@@ -9,7 +9,8 @@ def index(request):
 
     # Only include events that have at least one future date
     events_with_next_date = Event.objects.filter(
-        dates__datetime__gte=now
+        dates__datetime__gte=now,
+        published=True
     ).annotate(
         next_date=Min('dates__datetime')
     ).order_by('next_date')
