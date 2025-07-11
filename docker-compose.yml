@@ -8,6 +8,15 @@ services:
       - static_volume:/app/staticfiles
     expose:
       - 8000
+  # cron to remove unverified bookings
+  cron:
+    build: ./
+    volumes:
+      - ./:/app
+      - static_volume:/app/staticfiles
+    command: ["sh", "-c", "cron && tail -f /var/log/cron.log"]
+    depends_on:
+      - backend
 
   nginx:
     image: nginx:latest

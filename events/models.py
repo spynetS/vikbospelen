@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Min, Sum
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -15,11 +16,26 @@ class Event(models.Model):
         default=True,
         help_text="Markera om objektet ska vara publicerat"
     )
+
+    seats = models.IntegerField("Antal platser")
+
     def first_date(self):
         return self.dates.order_by("datetime").first()
 
     def __str__(self):
         return self.title or "No Title"
+
+    def get_number_of_booked_seats(self):
+        booked = self.bookings.filter(verified=True).aggregate(
+            total_adults=Sum('adult_seats'),
+            total_children=Sum('child_seats')
+        )
+
+        return (booked['total_adults'] or 0) + (booked['total_children'] or 0)
+
+
+    def get_seats_left(self):
+        return self.seats - self.get_number_of_booked_seats()
 
 
     def save(self, *args, **kwargs):

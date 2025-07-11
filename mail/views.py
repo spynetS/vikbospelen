@@ -2,6 +2,8 @@ from django.shortcuts import render
 from mail.mail import sendmail
 from vikbo import settings
 
+
+
 def contact(request):
     try:
         body = (

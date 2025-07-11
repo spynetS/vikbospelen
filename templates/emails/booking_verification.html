@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; }
+    .button {
+      display: inline-block;
+      padding: 10px 15px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hej {{ name }},</h2>
+  <p>Tack för din bokning till <strong>{{ event.title }}</strong>!</p>
+  <p>För att bekräfta din plats, klicka på knappen nedan:</p>
+
+  <p>
+    <a href="{{ verification_link }}" class="button">Bekräfta bokning</a>
+  </p>
+
+  <p><strong>Evenemang:</strong> {{ event.title }}<br>
+      <strong>Datum:</strong>
+	  {% with next_date=event.get_next_date %}
+		  {% if next_date %}
+			  {{ next_date.datetime|date:"Y-m-d H:i" }}
+		  {% else %}
+			  Ingen kommande datum
+		  {% endif %}
+	  {% endwith %}
+	  <br>
+     <strong>Bokningsnummer:</strong> {{ booking.booking_number }}<br>
+     <strong>Vuxna:</strong> {{ booking.adult_seats }}<br>
+     <strong>Barn:</strong> {{ booking.child_seats }}</p>
+
+  <p>Vänliga hälsningar,<br>{{ theater_name }}</p>
+
+  <hr>
+  <small>Detta är ett automatiskt meddelande – vänligen svara inte på det.</small>
+</body>
+</html>

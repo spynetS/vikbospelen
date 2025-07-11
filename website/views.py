@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from events.models import *
-from django.db.models import Min
+from bookings.models import *
+from django.db.models import Min, Sum
 from django.utils import timezone
 
 def index(request):
@@ -27,7 +28,10 @@ def contact(request):
 
 def event_details(request, slug):
     event = Event.objects.get(slug=slug)
-    return render(request,"website/event_details.html",{"event": event})
+
+
+
+    return render(request,"website/event_details.html",{"event": event, "seats_left":event.get_seats_left()})
 
 def events(request):
     events_with_latest_date = Event.objects.annotate(

@@ -11,4 +11,4 @@ sudo docker-compose up -d
    ssl certificate
 
 * Time spent
-16 timmar
+20 timmar

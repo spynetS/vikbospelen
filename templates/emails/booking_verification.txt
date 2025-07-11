@@ -1,0 +1,21 @@
+Hej {{ name }},
+
+Tack för din bokning till "{{ event.title }}"!
+
+För att slutföra bokningen, vänligen klicka på länken nedan för att bekräfta din plats:
+
+{{ verification_link }}
+
+📅 Evenemangsdatum: {{ event.date|date:"Y-m-d H:i" }}
+👤 Bokningsnummer: {{ booking.booking_number }}
+
+Antal vuxna platser: {{ booking.adult_seats }}
+Antal barnplatser: {{ booking.child_seats }}
+
+Om du inte har gjort denna bokning kan du ignorera detta meddelande.
+
+Vänliga hälsningar,
+{{ theater_name }}
+
+---
+Detta är ett automatiskt meddelande – vänligen svara inte på det.

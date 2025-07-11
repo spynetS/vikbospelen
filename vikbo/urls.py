@@ -8,6 +8,7 @@ urlpatterns = [
     path("",include("website.urls")),
     path("",include("events.urls")),
     path("mail/",include("mail.urls")),
+    path("bookings/",include("bookings.urls")),
 ]
 
 if settings.DEBUG:
