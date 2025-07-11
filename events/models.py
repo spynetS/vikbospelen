@@ -8,8 +8,8 @@ class Event(models.Model):
     poster = models.ImageField("Affisch", upload_to='event_posters/')
     short_description = models.CharField("Kort beskrivning", max_length=300)
     description = models.TextField("Beskrivning")
-    price = models.DecimalField("Pris", max_digits=10, decimal_places=2)
-    location = models.CharField("Plats", max_length=255)
+    price = models.DecimalField("Pris", max_digits=10, decimal_places=2,blank=True, default=0)
+    location = models.CharField("Plats", max_length=255, blank=True, default="")
     slug = models.SlugField("Slug",unique=True, blank=True, help_text="sökväg i webbläsaren (kan lämnas tom)")
     published = models.BooleanField(
         "Publicerad",
@@ -17,7 +17,7 @@ class Event(models.Model):
         help_text="Markera om objektet ska vara publicerat"
     )
 
-    seats = models.IntegerField("Antal platser")
+    seats = models.IntegerField("Antal platser",help_text="Detta är totala antalet platser som går att boka på hemsidan. Vuxen platser + (eventuelt) barn platser", blank=True, default=0)
 
     def first_date(self):
         return self.dates.order_by("datetime").first()

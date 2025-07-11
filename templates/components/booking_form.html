@@ -18,11 +18,11 @@
 	<p>Det finns {{ seats_left }} platser kvar</p>
 	<p class="mb-2">Skriv in dina uppgifter och boknings datan och verifiera sedan i mailet du får efter bokningen</p>
 	<div class="grid grid-cols-2 gap-5">
-		<input type="name" name="name" value="" placeholder="Namn" class="textfield h-9" />
-		<input type="phone" name="phone" value="" placeholder="Telefon" class="textfield h-9" />
-		<input type="email" name="email" value="" placeholder="Email" class="col-span-2 textfield h-9" />
-		<input type="number" name="adult_seats" value="2" placeholder="Antal vuxen platser" class="textfield h-9" />
-		<input type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="textfield h-9" />
+		<input required="true" type="name" name="name" value="" placeholder="Namn" class="textfield h-9" />
+		<input required="true" type="tel" pattern="^(\+46|0)[0-9\s\-]{7,15}$" name="phone" value="" placeholder="Telefon" class="textfield h-9" />
+		<input required="true" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" value="" placeholder="Email" class="col-span-2 textfield h-9" />
+		<input required="true" type="number" name="adult_seats" value="2" placeholder="Antal vuxen platser" class="textfield h-9" />
+		<input required="true" type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="textfield h-9" />
 		<input type="hidden" name="event_id" value="{{ event.pk }}" />
 		<input type="submit" name="" value="Boka" class=" col-span-2 btn btn-primary" />
 	</div>

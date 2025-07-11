@@ -21,6 +21,9 @@ def create(request):
     try:
         event: Event = Event.objects.get(pk=request.POST['event_id'])
 
+        if request.POST['name'] == "" or request.POST['email'] == "" or request.POST['phone'] == "":
+            raise ValueError("Måste fylla i alla fält")
+
         adult_seats_raw = request.POST["adult_seats"]
         child_seats_raw = request.POST["child_seats"]
 
@@ -49,6 +52,6 @@ def create(request):
         if not booking.send_mail():
             raise ValueError("Kunde inte skicka mail")
 
-        return render(request,"components/Alert.html",{"type":"sucess","msg":"Bokings mail skickat. Kolla din mail för att verifiera bokning!"})
+        return render(request,"components/Alert.html",{"type":"sucess","msg":"Bokings mail skickat. Kolla din mail för att verifiera bokningen!"})
     except Exception as e:
         return render(request,"components/Alert.html",{"type":"error","msg":f"Något gick fel: ({e})"})

@@ -8,15 +8,9 @@ from vikbo import settings
 
 def sendmail(subject, body, name, email, to, group=None, content_subtype="text/plain"):
     # Get all active staff users
-    users = User.objects.filter(is_active=True, is_staff=True)
-
     reply = [email]
     to = [to]
 
-    for user in users:
-        print(user.email)
-        reply.append(user.email)
-        to.append(user.email)
 
     mail_model = Mail(
         subject=subject,
@@ -37,9 +31,6 @@ def sendmail(subject, body, name, email, to, group=None, content_subtype="text/p
 
     # Logging the email
     print("_____SENDEMAIL_____")
-    print("____STAFF USERS____")
-    for user in users:
-        print(user.email)
     print("____CONTENT____")
     print(f"subject={subject}")
     print(f"to={to}")
