@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Min, Sum
 from django.utils import timezone
 from django.utils.text import slugify
+from django.urls import reverse
 
 class Event(models.Model):
     title = models.CharField("Titel", max_length=255)
@@ -18,6 +19,9 @@ class Event(models.Model):
     )
 
     seats = models.IntegerField("Antal platser",help_text="Detta är totala antalet platser som går att boka på hemsidan. Vuxen platser + (eventuelt) barn platser", blank=True, default=0)
+
+    def get_absolute_url(self):
+        return reverse("event_detail", kwargs={"slug": self.slug})
 
     def first_date(self):
         return self.dates.order_by("datetime").first()
