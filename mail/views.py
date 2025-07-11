@@ -20,7 +20,7 @@ def contact(request):
             request.POST['name'],
             request.POST['email'],
             settings.INBOX_EMAIL,
-            "Inforeport",
+            None,
             "html"
         )
 
@@ -36,8 +36,8 @@ def contact(request):
         sendmail(
             confirmation_subject,
             confirmation_body,
-            settings.EMAIL_HOST_USER,  # From your email
-            settings.EMAIL_HOST_USER,
+            "",
+            "",
             request.POST['email'],     # To user email
             None,
             "html"

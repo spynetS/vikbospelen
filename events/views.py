@@ -10,7 +10,10 @@ def plays_over_time(request):
     events = Event.objects.all()
 
     if year:
-        events = events.filter(dates__datetime__year=year)
+        try:
+            events = events.filter(dates__datetime__year=int(year))
+        except ValueError:
+            pass
 
     if search:
         events = events.filter(
@@ -20,12 +23,11 @@ def plays_over_time(request):
 
     events = events.distinct()
 
-    # Get all years with at least one event
     years_with_events = (
         Event.objects
         .annotate(year=ExtractYear("dates__datetime"))
         .values("year")
-        .annotate(count=Count("id"))
+        .annotate(count=Count("id", distinct=True))
         .order_by("year")
         .values_list("year", flat=True)
     )
@@ -34,6 +36,7 @@ def plays_over_time(request):
         "events": events,
         "years_with_events": years_with_events,
         "search": search,
+        "selected_year": year,
     }
 
     if request.headers.get("HX-Request"):
