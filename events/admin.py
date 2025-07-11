@@ -24,7 +24,8 @@ class EventMediaInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title', 'location', 'price', 'first_datetime_display','get_seats_left']
+    list_display = ['title', 'location', 'price', 'first_datetime_display','get_seats_left','published']
+    list_editable = ['published']
     inlines = [EventDateInline, EventMediaInline, BookingInline]
 
     def first_datetime_display(self, obj):
