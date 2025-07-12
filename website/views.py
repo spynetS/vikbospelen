@@ -30,9 +30,15 @@ def contact(request):
 def event_details(request, slug):
     event = Event.objects.get(slug=slug)
 
+    dates_with_seats = []
+    for date in event.dates.filter(datetime__gte=timezone.now()).order_by("datetime"):
+        seats_left = event.get_seats_left(date)
+        dates_with_seats.append({
+            'date': date,
+            'seats_left': seats_left,
+        })
 
-
-    return render(request,"website/event_details.html",{"event": event, "seats_left":event.get_seats_left()})
+    return render(request,"website/event_details.html",{"event": event, 'dates_with_seats': dates_with_seats})
 
 def events(request):
     events_with_latest_date = Event.objects.annotate(

@@ -24,7 +24,7 @@ class EventMediaInline(admin.TabularInline):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title', 'location', 'price', 'first_datetime_display','get_seats_left','published']
+    list_display = ['title', 'location', 'price', 'first_datetime_display','published']
     list_editable = ['published']
     inlines = [EventDateInline, EventMediaInline, BookingInline]
 
@@ -33,6 +33,3 @@ class EventAdmin(admin.ModelAdmin):
         return first.datetime.strftime('%Y-%m-%d %H:%M') if first else "-"
     first_datetime_display.short_description = "Första datum & tid"
 
-    def get_seats_left(self, obj):
-        return obj.get_seats_left()
-    get_seats_left.short_description = 'Lediga platser'

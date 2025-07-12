@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 
 from django.template.loader import render_to_string
-from events.models import Event
+from events.models import Event, EventDate
 from mail.mail import sendmail
 
 class Booking(models.Model):
@@ -14,6 +14,8 @@ class Booking(models.Model):
     child_seats = models.PositiveIntegerField("Barn platser",default=0)
 
     booking_number = models.UUIDField("Boknings nummer",default=uuid.uuid4, editable=False, unique=True)
+
+    booking_date = models.ForeignKey(EventDate,on_delete=models.CASCADE,related_name="bookings")
 
     created_at = models.DateTimeField(auto_now_add=True)
 

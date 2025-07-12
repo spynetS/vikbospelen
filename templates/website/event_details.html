@@ -37,15 +37,19 @@
 
 				<div class="flex flex-row gap-2" >
 					<p class="font-bold mb-1">Pris</p>
+					{% if event.price  %}
 					<p>{{ event.price|floatformat:0 }} kr</p>
+					{% else %}
+					<p>Gratis</p>
+					{% endif %}
 				</div>
 			</div>
 			{% load tz %}
 			{% now "Y-m-d" as today %}
 
 			{% with last_date=event.dates.all|dictsort:"datetime"|first %}
-				{% if last_date and last_date.datetime|date:"Y-m-d" >= today %}
-					{% include "components/booking_form.html" with event=event seats_left=seats_left %}
+				{% if last_date and last_date.datetime|date:"Y-m-d" >= today and event.can_book %}
+					{% include "components/booking_form.html" with event=event dates_with_seats=dates_with_seats %}
 				{% endif %}
 			{% endwith %}
 

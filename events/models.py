@@ -1,8 +1,10 @@
 from django.db import models
 from django.db.models import Min, Sum
+from django.db.models import Q, Sum
 from django.utils import timezone
 from django.utils.text import slugify
 from django.urls import reverse
+from datetime import timedelta
 
 class Event(models.Model):
     title = models.CharField("Titel", max_length=255)
@@ -18,7 +20,9 @@ class Event(models.Model):
         help_text="Markera om objektet ska vara publicerat"
     )
 
-    seats = models.IntegerField("Antal platser",help_text="Detta är totala antalet platser som går att boka på hemsidan. Vuxen platser + (eventuelt) barn platser", blank=True, default=0)
+    seats = models.IntegerField("Antal platser per datum",help_text="Detta är totala antalet platser som går att boka på hemsidan. Vuxen platser + (eventuelt) barn platser", blank=True, default=0)
+    can_book = models.BooleanField("Går att boka",blank=True, help_text="Om man ska kunna boka plats på detta evenemang bocka i mig")
+
 
     def get_absolute_url(self):
         return reverse("event_detail", kwargs={"slug": self.slug})
@@ -29,17 +33,26 @@ class Event(models.Model):
     def __str__(self):
         return self.title or "No Title"
 
-    def get_number_of_booked_seats(self):
-        booked = self.bookings.filter(verified=True).aggregate(
+    def get_number_of_booked_seats(self, booking_date):
+        # This code will retrive bookings for this event and that are either verified
+        # or not older then 5minutes and return the total amount of seats
+        now = timezone.now()
+        five_minutes_ago = now - timedelta(minutes=5)
+
+        booked = self.bookings.filter(
+            booking_date=booking_date
+        ).filter(
+            Q(verified=True) |
+            Q(verified=False, created_at__gte=five_minutes_ago)
+        ).aggregate(
             total_adults=Sum('adult_seats'),
             total_children=Sum('child_seats')
         )
-
         return (booked['total_adults'] or 0) + (booked['total_children'] or 0)
 
 
-    def get_seats_left(self):
-        return self.seats - self.get_number_of_booked_seats()
+    def get_seats_left(self, booking_date):
+        return self.seats - self.get_number_of_booked_seats(booking_date)
 
 
     def save(self, *args, **kwargs):

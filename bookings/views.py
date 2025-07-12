@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
-from events.models import Event
+from events.models import Event, EventDate
 from bookings.models import Booking
 from django.db.models import Sum
 # Create your views here.
@@ -21,7 +21,7 @@ def create(request):
     try:
         event: Event = Event.objects.get(pk=request.POST['event_id'])
 
-        if request.POST['name'] == "" or request.POST['email'] == "" or request.POST['phone'] == "":
+        if request.POST['name'] == "" or request.POST['email'] == "" or request.POST['phone'] == "" or request.POST['event_date'] == "Välj Datum" or request.POST['event_date'] == "":
             raise ValueError("Måste fylla i alla fält")
 
         adult_seats_raw = request.POST["adult_seats"]
@@ -31,12 +31,14 @@ def create(request):
         adult_seats = int(adult_seats_raw) if adult_seats_raw.isdigit() else 0
         child_seats = int(child_seats_raw) if child_seats_raw.isdigit() else 0
 
+        booking_date = EventDate.objects.get(pk=request.POST['event_date'])
+
         # Optional check to ensure at least one seat is booked
         if adult_seats + child_seats == 0:
             raise ValueError("Du måste boka minst 1 plats.")
 
 
-        if (event.get_number_of_booked_seats() + (adult_seats + child_seats)) > event.seats:
+        if (event.get_number_of_booked_seats(booking_date) + (adult_seats + child_seats)) > event.seats:
             raise ValueError("Finns inte tillräckligt med platser")
 
         
@@ -44,6 +46,7 @@ def create(request):
             name = request.POST['name'],
             email = request.POST['email'],
             phone = request.POST['phone'],
+            booking_date=booking_date,
             adult_seats = adult_seats,
             child_seats = child_seats,
             event=event
