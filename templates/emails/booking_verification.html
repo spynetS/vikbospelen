@@ -26,13 +26,7 @@
 
   <p><strong>Evenemang:</strong> {{ event.title }}<br>
       <strong>Datum:</strong>
-	  {% with next_date=event.get_next_date %}
-		  {% if next_date %}
-			  {{ next_date.datetime|date:"Y-m-d H:i" }}
-		  {% else %}
-			  Ingen kommande datum
-		  {% endif %}
-	  {% endwith %}
+	  	  {{ booking.booking_date.datetime|date:"Y-m-d H:i" }}
 	  <br>
      <strong>Bokningsnummer:</strong> {{ booking.booking_number }}<br>
      <strong>Vuxna:</strong> {{ booking.adult_seats }}<br>
