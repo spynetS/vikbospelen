@@ -40,18 +40,32 @@ def index(request):
 def contact(request):
     return render(request, "website/contact.html",{})
 
+from django.utils import timezone
+
 def event_details(request, slug):
     event = Event.objects.get(slug=slug)
 
+    now = timezone.now()
+    today = now.date()
+
+    # Include dates from today onwards
+    future_dates = event.dates.filter(datetime__date__gte=today).order_by("datetime")
+
     dates_with_seats = []
-    for date in event.dates.filter(datetime__gte=timezone.now()).order_by("datetime"):
-        seats_left = event.get_seats_left(date)
+    for date_obj in future_dates:
+        seats_left = event.get_seats_left(date_obj)
         dates_with_seats.append({
-            'date': date,
+            'date': date_obj,
             'seats_left': seats_left,
         })
 
-    return render(request,"website/event_details.html",{"event": event, 'dates_with_seats': dates_with_seats})
+    return render(request, "website/event_details.html", {
+        "event": event,
+        "dates_with_seats": dates_with_seats,
+    })
+
+
+
 
 def events(request):
     events_with_latest_date = Event.objects.annotate(

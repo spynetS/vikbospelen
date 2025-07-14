@@ -6,8 +6,8 @@
 			<h1 class="text-4xl md:text-6xl mb-2 md:mb-5">{{event.title}}</h1>
 			<p>{{event.short_description}}</p>
 			{% if user.is_staff %}
-			<a class="btn btn-primary" href="/admin/events/event/{{event.pk}}" >
-                Redigera detta evenemang
+			<a class="btn btn-primary italic" href="/admin/events/event/{{event.pk}}" >
+                (ADMIN) Redigera detta evenemang
             </a>
 			{% endif %}
 		</div>
@@ -44,15 +44,9 @@
 					{% endif %}
 				</div>
 			</div>
-			{% load tz %}
-			{% now "Y-m-d" as today %}
-
-			{% with last_date=event.dates.all|dictsort:"datetime"|first %}
-				{% if last_date and last_date.datetime|date:"Y-m-d" >= today and event.can_book %}
-					{% include "components/booking_form.html" with event=event dates_with_seats=dates_with_seats %}
-				{% endif %}
-			{% endwith %}
-
+			{% if dates_with_seats and event.can_book %}
+				{% include "components/booking_form.html" with event=event dates_with_seats=dates_with_seats %}
+			{% endif %}
 
 
 

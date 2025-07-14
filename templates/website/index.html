@@ -8,7 +8,11 @@
 			<p class="text-xl text-gray-200 mt-4 font-serif" >Lokal kultur sedan 1983</p>
 
 			<div class="flex flex-row gap-4 mt-12" >
+				{% if last_3 %}
 				<button class="btn btn-primary" id="newestbtn" >Kommande föreställningar</button>
+				{% else %}
+				<a href="/forestallningar" class="btn btn-primary" id="newestbtn" >Föreställningar</a>
+				{% endif %}
 				<a class="btn btn-secondary" href="#news">Nyheter</a>
 			</div>
 		</div>

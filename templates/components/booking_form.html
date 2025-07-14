@@ -26,13 +26,14 @@
 				<option value="{{ date.id }}" selected>
 					Välj datum
 				</option>
-				{% for date in event.dates.all %}
-					<option value="{{ date.id }}">
-						{{ date.datetime|date:"Y-m-d H:i" }}
-					</option>
-				{% empty %}
-					<option disabled selected>Inga datum tillgängliga</option>
-				{% endfor %}
+				{% for date_info in dates_with_seats %}
+                    <option value="{{ date_info.date.id }}">
+                        {{ date_info.date.datetime|date:"Y-m-d H:i" }}
+                    </option>
+                {% empty %}
+                    <option disabled selected>Inga datum tillgängliga</option>
+                {% endfor %}
+
 			</select>
 			<p id="seats-left-message">Välj ett datum för att se antal lediga platser</p>
 		</div>
