@@ -40,7 +40,7 @@
              }, "-=0.4")
 		 .from("#hero button", {
              y: 40,
-             opacity: 0,
+             opacity: 0,i
              duration: 0.6,
              stagger: 0.2,
              ease: "power2.out"
@@ -68,7 +68,7 @@
 			</div>
 			<a href="{% url 'event_detail' latest.slug %}" class="btn btn-primary w-full" >Se mer</a>
 		</div>
-		<img class="md:flex h-fit hidden max-w-1/2" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
+		<img class="md:flex object-cover hidden max-h-full object-contain max-w-1/2" src= "{{ latest.poster.url }}" alt="{{ latest.title }}" />
 		{% endif %}
 	</section>
 
@@ -109,7 +109,7 @@
 		   ease: "power3.out"
 	   }, "-=0.2");
 	</script>
-
+	{% if last_3 %}
 	<section id="newest" class="min-h-screen w-screen bg-[#1a2545] py-12 px-12" >
 		<h2 class="text-[#a09341] text-4xl text-center" >Kommande föreställningar</h2>
 		<div class="md:grid md:grid-cols-3 flex flex-col gap-12 pb-12" >
@@ -166,15 +166,16 @@
 	 }, "-=0.5"); // overlap start a bit with the title animation
 
 	 document.getElementById('newestbtn').addEventListener('click', () => {
-		   const scrollTrigger = tl.scrollTrigger;
-  window.scrollTo({
-		 top: scrollTrigger.end,
-		 behavior: "smooth"
-	 });
+		 const scrollTrigger = tl.scrollTrigger;
+		 window.scrollTo({
+			 top: scrollTrigger.end,
+			 behavior: "smooth"
+		 });
 	 });
 
 	</script>
 
+	{% endif %}
 
 	<section id="news" class="bg-[#9d0024] h-screen w-screen flex flex-col items-center gap-5" >
 		<h2 class="mt-18 text-white text-5xl" >Nyheter</h2>

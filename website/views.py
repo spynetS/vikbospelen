@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from events.models import *
 from bookings.models import *
-from django.db.models import Min, Sum
+from django.db.models import Min, Sum, Max
 from django.utils import timezone
+
 
 def index(request):
     now = timezone.now()
 
-    # Only include events that have at least one future date
+    # Events with at least one future date
     events_with_next_date = Event.objects.filter(
         dates__datetime__gte=now,
         published=True
@@ -18,11 +19,23 @@ def index(request):
     next_event = events_with_next_date.first()
     upcoming_3 = events_with_next_date[:3]
 
+    # Fallback if no future events: use latest event based on past dates
+    if not next_event:
+        fallback_event = Event.objects.filter(
+            published=True,
+            dates__datetime__lt=now
+        ).annotate(
+            last_date=Max('dates__datetime')
+        ).order_by('-last_date').first()
+
+        next_event = fallback_event
+
     return render(request, "website/index.html", {
         "latest": next_event,
         "last_3": upcoming_3,
         "now": now
     })
+
 
 def contact(request):
     return render(request, "website/contact.html",{})
