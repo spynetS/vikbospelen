@@ -15,7 +15,6 @@
                     <th>Email</th>
                     <th>Telefon</th>
                     <th>Vuxen säten</th>
-                    <th>Barn säten</th>
                     <th>Total</th>
                     <th>Boknings datum</th>
                     <th>Att betala </th>
@@ -29,7 +28,6 @@
                             <td>{{ booking.email }}</td>
                             <td>{{ booking.phone }}</td>
                             <td>{{ booking.adult_seats }}</td>
-                            <td>{{ booking.child_seats }}</td>
                             <td>{{ booking.adult_seats|add:booking.child_seats }}</td>
                             <td>{{ booking.booking_date.datetime }}</td>
                             <td>{{booking.get_price}} :-</td>
