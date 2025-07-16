@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-from django.urls import reverse
+
 from django.template.loader import render_to_string
 from events.models import Event, EventDate
 from mail.mail import sendmail
@@ -32,19 +32,15 @@ class Booking(models.Model):
     def __str__(self):
         return f"Booking #{self.booking_number} - {self.name}"
 
-    def send_mail(self,request):
+    def send_mail(self):
         try:
-            relative_url = reverse("booking_verify", args=[self.booking_number])
-            verification_link = request.build_absolute_uri(relative_url)
-
-            context = {
+            context= {
                 "name": self.name,
                 "event": self.event,
                 "booking": self,
-                "verification_link": verification_link,
+                "verification_link": f"http://localhost:8000/bookings/verify/{self.booking_number}",
                 "theater_name": "Vikbolandsspelet",
             }
-
 
             html_content = render_to_string("emails/booking_verification.html", context)
 
