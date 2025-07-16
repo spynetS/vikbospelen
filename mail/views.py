@@ -31,7 +31,7 @@ def contact(request):
             "Tack för att du kontaktade oss. Vi har mottagit ditt meddelande och "
             "kommer att återkomma så snart som möjligt.<br><br>"
             "Med vänliga hälsningar,<br>"
-            "Vikbolandsspelen"
+            "Vikbolandsspelet"
         )
         sendmail(
             confirmation_subject,
