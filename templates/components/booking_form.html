@@ -38,9 +38,9 @@
 			    <p id="seats-left-message">Välj ett datum för att se antal lediga platser</p>
 		    </div>
 		    <input required="true" type="number" name="adult_seats" placeholder="Antal platser" class="textfield h-9 col-span-2" />
-            <!--
-                 <input required="true" type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="textfield h-9" />
-            -->
+
+                 <input required="true" type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="hiddne textfield h-9" />
+
 
 		    <input type="hidden" name="event_id" value="{{ event.pk }}" />
 		    <input type="submit" name="" value="Boka" class=" col-span-2 btn btn-primary" />
