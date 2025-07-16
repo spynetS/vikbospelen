@@ -52,7 +52,7 @@ def create(request):
             event=event
         )
         booking.save()
-        if not booking.send_mail():
+        if not booking.send_mail(request):
             raise ValueError("Kunde inte skicka mail")
 
         return render(request,"components/Alert.html",{"type":"sucess","msg":"Bokings mail skickat. Kolla din mail för att verifiera bokningen!"})
