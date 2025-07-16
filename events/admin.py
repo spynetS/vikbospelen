@@ -73,7 +73,7 @@ class EventAdmin(admin.ModelAdmin):
         bookings = event.bookings.filter(verified=True).select_related("booking_date").all()
 
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = f'attachment; filename="bookings_event_{event.id}.csv"'
+        response['Content-Disposition'] = f'attachment; filename="Bokningar__{event.title}.csv"'
 
         writer = csv.writer(response)
         #writer.writerow(['Name', 'Email', 'Phone', 'Adult Seats', 'Child Seats', 'Total Seats', 'Date & Time','Cost'])
