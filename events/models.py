@@ -20,7 +20,7 @@ class Event(models.Model):
         help_text="Markera om objektet ska vara publicerat"
     )
 
-    seats = models.IntegerField("Antal platser per datum",help_text="Detta är totala antalet platser som går att boka på hemsidan. Vuxen platser + (eventuelt) barn platser", blank=True, default=0)
+    seats = models.IntegerField("Antal platser per datum",help_text="Detta är totala antalet platser som går att boka på hemsidan", blank=True, default=0)
     can_book = models.BooleanField("Går att boka",blank=True, help_text="Om man ska kunna boka plats på detta evenemang bocka i mig")
 
 

@@ -1,0 +1,42 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+	<link rel="stylesheet" href="/static/main.css" type="text/css" media="screen" />
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <div class="flex flex-col w-full">
+
+        <h2>Bokningar för: {{ event.title }}</h2>
+        <a href="{% url 'admin:booking-overview-csv' event.id %}" class="btn btn-primary">Ladda ner CSV fil (går att öppna med excel)</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Namn</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Vuxen säten</th>
+                    <th>Barn säten</th>
+                    <th>Total</th>
+                    <th>Boknings datum</th>
+                    <th>Att betala </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    {% if booking.verified %}
+                        <tr>
+                            <td>{{ booking.name }}</td>
+                            <td>{{ booking.email }}</td>
+                            <td>{{ booking.phone }}</td>
+                            <td>{{ booking.adult_seats }}</td>
+                            <td>{{ booking.child_seats }}</td>
+                            <td>{{ booking.adult_seats|add:booking.child_seats }}</td>
+                            <td>{{ booking.booking_date.datetime }}</td>
+                            <td>{{booking.get_price}} :-</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

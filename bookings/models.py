@@ -22,6 +22,9 @@ class Booking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='bookings')
     verified = models.BooleanField("Verifierad",default=False)
 
+    def get_price(self):
+        return self.event.price*self.adult_seats
+
     class Meta:
         verbose_name = "Bokning"
         verbose_name_plural = "Bokningar"

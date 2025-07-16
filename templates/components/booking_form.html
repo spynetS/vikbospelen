@@ -1,86 +1,89 @@
 <div class="bg-white rounded-lg p-4 shadow-lg relative">
 
-{% if dates_with_seats %}
-{% else %}
-<div class="bg-[#000000bf] absolute top-0 text-center left-0 h-full w-full flex flex-col items-center justify-center" >
-	<p class='w-1/2 text-white text-2xl text-shadow-xl' >Det finns tyvärr inga platser kvar att boka på hemsidan</p>
-</div>
-{% endif %}
+    {% if dates_with_seats %}
+    {% else %}
+        <div class="bg-[#000000bf] absolute top-0 text-center left-0 h-full w-full flex flex-col items-center justify-center" >
+	        <p class='w-1/2 text-white text-2xl text-shadow-xl' >Det finns tyvärr inga platser kvar att boka på hemsidan</p>
+        </div>
+    {% endif %}
 
-<form
-	class=""
-		   hx-post="/bookings/create/"
-		   hx-target="#form-response"
-		   hx-swap="innerHTML"
-		   hx-indicator="#spinner"
->
-	<h2 class="text-3xl mb-2">Boka plats till {{event.title}}</h2>
+    <form
+	    class=""
+		       hx-post="/bookings/create/"
+		       hx-target="#form-response"
+		       hx-swap="innerHTML"
+		       hx-indicator="#spinner"
+    >
+	    <h2 class="text-3xl mb-2">Boka plats till {{event.title}}</h2>
 
-	<p class="mb-2">Skriv in dina uppgifter och boknings datan och verifiera sedan i mailet du får efter bokningen</p>
-	<div class="grid grid-cols-2 gap-5">
-		<input required="true" type="name" name="name" value="" placeholder="Namn" class="textfield h-9" />
-		<input required="true" type="tel" pattern="^(\+46|0)[0-9\s\-]{7,15}$" name="phone" value="" placeholder="Telefon" class="textfield h-9" />
-		<input required="true" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" value="" placeholder="Email" class="col-span-2 textfield h-9" />
-		<div class="col-span-2">
-			<select name="event_date" class="w-full text-gray-800 textfield " id="event-date">
-				<option value="{{ date.id }}" selected>
-					Välj datum
-				</option>
-				{% for date_info in dates_with_seats %}
-                    <option value="{{ date_info.date.id }}">
-                        {{ date_info.date.datetime|date:"Y-m-d H:i" }}
-                    </option>
-                {% empty %}
-                    <option disabled selected>Inga datum tillgängliga</option>
-                {% endfor %}
+	    <p class="mb-2">Skriv in dina uppgifter och boknings datan och verifiera sedan i mailet du får efter bokningen</p>
+	    <div class="grid grid-cols-2 gap-5">
+		    <input required="true" type="name" name="name" value="" placeholder="Namn" class="textfield h-9" />
+		    <input required="true" type="tel" pattern="^(\+46|0)[0-9\s\-]{7,15}$" name="phone" value="" placeholder="Telefon" class="textfield h-9" />
+		    <input required="true" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" value="" placeholder="Email" class="col-span-2 textfield h-9" />
+		    <div class="col-span-2">
+			    <select name="event_date" class="w-full text-gray-800 textfield " id="event-date">
+				    <option value="{{ date.id }}" selected>
+					    Välj datum
+				    </option>
+				    {% for date_info in dates_with_seats %}
+                        <option value="{{ date_info.date.id }}">
+                            {{ date_info.date.datetime|date:"Y-m-d H:i" }}
+                        </option>
+                    {% empty %}
+                        <option disabled selected>Inga datum tillgängliga</option>
+                    {% endfor %}
 
-			</select>
-			<p id="seats-left-message">Välj ett datum för att se antal lediga platser</p>
-		</div>
-		<input required="true" type="number" name="adult_seats" value="2" placeholder="Antal vuxen platser" class="textfield h-9" />
-		<input required="true" type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="textfield h-9" />
-		<input type="hidden" name="event_id" value="{{ event.pk }}" />
-		<input type="submit" name="" value="Boka" class=" col-span-2 btn btn-primary" />
-	</div>
+			    </select>
+			    <p id="seats-left-message">Välj ett datum för att se antal lediga platser</p>
+		    </div>
+		    <input required="true" type="number" name="adult_seats" placeholder="Antal platser" class="textfield h-9 col-span-2" />
+            <!--
+                 <input required="true" type="number" name="child_seats" value="0" placeholder="Antal barn platser" class="textfield h-9" />
+            -->
 
-	<div id="spinner" class="htmx-indicator absolute top-4 right-4">
-		<svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-			<circle class="opacity-25px" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-			<path class="opacity-75" fill="currentColor"
-				  d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 010 16v4l-3.5-3.5L12 20v4a8 8 0 01-8-8z">
-			</path>
-		</svg>
-	</div>
+		    <input type="hidden" name="event_id" value="{{ event.pk }}" />
+		    <input type="submit" name="" value="Boka" class=" col-span-2 btn btn-primary" />
+	    </div>
 
-	<!-- Server response target -->
-	<div id="form-response" class="w-full mt-4"></div>
+	    <div id="spinner" class="htmx-indicator absolute top-4 right-4">
+		    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+			    <circle class="opacity-25px" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+			    <path class="opacity-75" fill="currentColor"
+				      d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 010 16v4l-3.5-3.5L12 20v4a8 8 0 01-8-8z">
+			    </path>
+		    </svg>
+	    </div>
 
-</form>
-<script>
- const seatMessage = document.getElementById('seats-left-message');
- const dateSelect = document.getElementById('event-date');
+	    <!-- Server response target -->
+	    <div id="form-response" class="w-full mt-4"></div>
 
- const datesWithSeats = {
-     {% for item in dates_with_seats %}
-     "{{ item.date.id }}": {{ item.seats_left }},
-     {% endfor %}
- };
+    </form>
+    <script>
+     const seatMessage = document.getElementById('seats-left-message');
+     const dateSelect = document.getElementById('event-date');
 
- dateSelect.addEventListener('change', function () {
-     const selectedDateId = this.value;
-     const seats = datesWithSeats[selectedDateId];
+     const datesWithSeats = {
+         {% for item in dates_with_seats %}
+         "{{ item.date.id }}": {{ item.seats_left }},
+         {% endfor %}
+     };
 
-     if (seats === undefined) {
-		 seatMessage.textContent = 'Välj ett datum för att se antal lediga platser';
-		 seatMessage.className = 'text-sm text-gray-700';
-     } else if (seats <= 0) {
-		 seatMessage.textContent = 'Inga platser kvar för det datumet';
-		 seatMessage.className = 'text-sm text-red-600';
-     } else {
-		 seatMessage.textContent = `Det finns ${seats} platser kvar för det datumet`;
-		 seatMessage.className = 'text-sm text-green-700';
-     }
- });
-</script>
+     dateSelect.addEventListener('change', function () {
+         const selectedDateId = this.value;
+         const seats = datesWithSeats[selectedDateId];
+
+         if (seats === undefined) {
+		     seatMessage.textContent = 'Välj ett datum för att se antal lediga platser';
+		     seatMessage.className = 'text-sm text-gray-700';
+         } else if (seats <= 0) {
+		     seatMessage.textContent = 'Inga platser kvar för det datumet';
+		     seatMessage.className = 'text-sm text-red-600';
+         } else {
+		     seatMessage.textContent = `Det finns ${seats} platser kvar för det datumet`;
+		     seatMessage.className = 'text-sm text-green-700';
+         }
+     });
+    </script>
 
 </div>
