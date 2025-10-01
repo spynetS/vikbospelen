@@ -20,8 +20,10 @@ class Event(models.Model):
         help_text="Markera om objektet ska vara publicerat"
     )
 
+    salver_link = models.CharField("Salver länk (biljätter)", blank=True)
+
     seats = models.IntegerField("Antal platser per datum",help_text="Detta är totala antalet platser som går att boka på hemsidan", blank=True, default=0)
-    can_book = models.BooleanField("Går att boka",blank=True, help_text="Om man ska kunna boka plats på detta evenemang bocka i mig")
+    can_book = models.BooleanField("Går att boka",blank=True, help_text="Hemsidans innbygda boknings system")
 
 
     def get_absolute_url(self):

@@ -50,7 +50,9 @@
 				{% include "components/booking_form.html" with event=event dates_with_seats=dates_with_seats %}
 			{% endif %}
 
-
+			{% if event.salver_link %}
+				<a href="{{event.salver_link}}" class="btn btn-primary" >Boka dina biljätter här</a>
+			{% endif %}
 
 		</div>
 	</div>
