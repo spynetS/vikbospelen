@@ -1,13 +1,22 @@
 from django.shortcuts import render
 from .models import Event
+from django.db.models import Max, Q, Count
 from django.db.models.functions import ExtractYear
-from django.db.models import Count, Q
+from django.utils import timezone
 
 def plays_over_time(request):
     year = request.GET.get("year")
     search = request.GET.get("search", "").strip()
 
-    events = Event.objects.all()
+    now = timezone.now()
+
+    # Only include events that have at least one date in the past or now
+    events = Event.objects.annotate(
+        latest_date=Max('dates__datetime')
+    ).filter(
+        latest_date__isnull=False,
+        latest_date__lte=now
+    )
 
     if year:
         try:

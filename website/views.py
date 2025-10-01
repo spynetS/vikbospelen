@@ -68,10 +68,15 @@ def event_details(request, slug):
 
 
 def events(request):
+
+    now = timezone.now()
+
     events_with_latest_date = Event.objects.annotate(
         latest_date=Max('dates__datetime')
-    ).filter(latest_date__isnull=False).order_by('-latest_date')
-
+    ).filter(
+        latest_date__isnull=False,
+        latest_date__lte=now  # Only include events whose latest date is in the past or now
+    ).order_by('-latest_date')
 
     return render(request, "website/events.html", {"events": events_with_latest_date})
 
