@@ -6,16 +6,10 @@
 			<h1 class="text-5xl">Om oss</h1>
 			<p>Aliquam erat volutpat.  Nunc eleifend leo vitae magna.  In id erat non orci commodo lobortis.  Proin neque massa, cursus ut, gravida ut, lobortis eget, lacus.  Sed diam.  Praesent fermentum tempor tellus.  Nullam tempus.  Mauris ac felis vel velit tristique imperdiet.  Donec at pede.  Etiam vel neque nec dui dignissim bibendum.  Vivamus id enim.  Phasellus neque orci, porta a, aliquet quis, semper a, massa.  Phasellus purus.  Pellentesque tristique imperdiet tortor.  Nam euismod tellus id erat.</p>
 
-			<div class="grid grid-cols-4 gap-5 w-2/3 mt-12" >
-
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
-				{% include "components/contact_avatar.html" with title="Titel" name="John Doe" phone="0709917418" %}
+			<div class="grid gri d-cols-4 gap-5 w-2/3 mt-12" >
+				{% for contact in contacts %}
+					{% include "components/contact_avatar.html" with title=contact.title name=contact.name phone=contact.phone email=contact.email %}
+				{% endfor %}
 
 			</div>
 
