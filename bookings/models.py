@@ -29,6 +29,8 @@ class Booking(models.Model):
         verbose_name = "Bokning"
         verbose_name_plural = "Bokningar"
 
+
+
     def __str__(self):
         return f"Booking #{self.booking_number} - {self.name}"
 

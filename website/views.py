@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from contact.models import ContactUser
 from events.models import *
 from bookings.models import *
 from django.db.models import Min, Sum, Max
@@ -81,4 +82,5 @@ def events(request):
     return render(request, "website/events.html", {"events": events_with_latest_date})
 
 def aboutus(request):
-    return render(request,"website/aboutus.html",{})
+    contacts = ContactUser.objects.all()
+    return render(request,"website/aboutus.html",{"contacts":contacts})
