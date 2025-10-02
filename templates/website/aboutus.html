@@ -8,7 +8,9 @@
 
 			<div class="grid gri d-cols-4 gap-5 w-2/3 mt-12" >
 				{% for contact in contacts %}
-					{% include "components/contact_avatar.html" with title=contact.title name=contact.name phone=contact.phone email=contact.email %}
+					{% if contact.published %}
+						{% include "components/contact_avatar.html" with title=contact.title name=contact.name phone=contact.phone email=contact.email %}
+					{% endif %}
 				{% endfor %}
 
 			</div>
