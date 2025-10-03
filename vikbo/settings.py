@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "events",
     "mail",
     "bookings",
-    "contact"
+    "contact",
+    "pages"
 
 ]
 
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.SiteMiddleware'
 ]
 
 ROOT_URLCONF = 'vikbo.urls'
@@ -73,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'context_processors.site_data'
             ],
         },
     },
