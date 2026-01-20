@@ -25,7 +25,15 @@ class Event(models.Model):
     seats = models.IntegerField("Antal platser per datum",help_text="Detta är totala antalet platser som går att boka på hemsidan", blank=True, default=0)
     can_book = models.BooleanField("Går att boka",blank=True, help_text="Hemsidans innbygda boknings system")
 
-
+    @property
+    def is_past(self):
+        """
+        Returns True if all EventDates are in the past.
+        Returns False if at least one EventDate is in the future or now.
+        """
+        now = timezone.now()
+        return not self.dates.filter(datetime__gte=now).exists()    
+    
     def get_absolute_url(self):
         return reverse("event_detail", kwargs={"slug": self.slug})
 

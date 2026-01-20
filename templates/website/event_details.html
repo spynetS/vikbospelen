@@ -38,11 +38,13 @@
 				</div>
 
 				<div class="flex flex-row gap-2" >
+					{% if not event.is_past %}
 					<p class="font-bold mb-1">Pris</p>
 					{% if event.price  %}
 					<p>{{ event.price|floatformat:0 }} kr</p>
 					{% else %}
 					<p>Gratis</p>
+					{% endif %}
 					{% endif %}
 				</div>
 			</div>
@@ -50,7 +52,7 @@
 				{% include "components/booking_form.html" with event=event dates_with_seats=dates_with_seats %}
 			{% endif %}
 
-			{% if event.salver_link %}
+			{% if event.salver_link and not event.is_past %}
 				<a href="{{event.salver_link}}" class="btn btn-primary h-12" >Boka dina biljätter här</a>
 			{% endif %}
 
