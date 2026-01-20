@@ -4,8 +4,8 @@
   <div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
 
     <div>
-      <h3 class="text-lg font-semibold mb-2">Vikbolandsspelet</h3>
-      <p>En liten teater med stora drömmar.</p>
+			{% render_component "livepatch/h3.html" class="text-lg font-semibold mb-2" CONTENT="Vikbolandsspelet" %}
+      {% render_component "livepatch/p.html" CONTENT="En liten teater med stora drömmar." %}
     </div>
 
     <div>
@@ -19,7 +19,7 @@
     </div>
 
     <div>
-      <h4 class="font-semibold mb-2">Kontakt</h4>
+			{% render_component "livepatch/h4.html" class="font-semibold mb-2" CONTENT="En liten teater med stora drömmar." %}
       <p>Email: {% render_component "livepatch/a.html" href="mailto:info@vikbolandsspelet.se" class="hover:underline" CONTENT="info@vikbolandsspelet.se" %} </p>
       <p>Telefon: {% render_component "livepatch/a.html" href="tel:+460702101824" class="hover:underline" CONTENT="070-210 18 24" %}
 			</p>
