@@ -16,8 +16,8 @@ def plays_over_time(request):
     ).filter(
         latest_date__isnull=False,
         latest_date__lte=now
-    )
-
+    ).order_by('-latest_date')
+    
     if year:
         try:
             events = events.filter(dates__datetime__year=int(year))
