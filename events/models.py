@@ -69,19 +69,26 @@ class Event(models.Model):
     def get_next_date(self):
         return self.dates.filter(datetime__gte=timezone.now()).order_by('datetime').first()
 
+    
 class EventDate(models.Model):
-    event = models.ForeignKey(Event, verbose_name="Evenemang", on_delete=models.CASCADE, related_name='dates')
-    datetime = models.DateTimeField("Datum och tid")
-
+    event = models.ForeignKey(
+        Event,
+        verbose_name="Evenemang",
+        on_delete=models.CASCADE,
+        related_name="dates"
+    )
+    datetime = models.DateTimeField("Datum och tid", blank=True, null=True)
+    year_only = models.BooleanField("Endast år", default=False)
+    
     class Meta:
         verbose_name = "Datum"
         verbose_name_plural = "Datum"
 
     def __str__(self):
-        datetime_str = self.datetime.strftime('%Y-%m-%d %H:%M') if self.datetime else "No date"
-        title_str = self.event.title if self.event and self.event.title else "No title"
-        return f"{datetime_str} för {title_str}"
-
+        if self.year_only and self.datetime:
+            return str(self.datetime.year)
+        return self.datetime.strftime("%Y-%m-%d %H:%M")
+    
 class EventMedia(models.Model):
     MEDIA_TYPE_CHOICES = [
         ('image', 'Bild'),

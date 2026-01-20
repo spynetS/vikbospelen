@@ -7,7 +7,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Event
 from bookings.models import Booking
+from django import forms
 import csv
+from datetime import datetime
 
 class BookingInline(admin.TabularInline):
     model = Booking
@@ -16,13 +18,45 @@ class BookingInline(admin.TabularInline):
     can_delete = False
     show_change_link = True  # Make booking clickable
 
+    
+class EventDateInlineForm(forms.ModelForm):
+    year = forms.IntegerField(
+        label="År",
+        required=False,
+        min_value=1900,
+        max_value=2100
+    )
+
+    class Meta:
+        model = EventDate
+        fields = ("year_only", "datetime", "year")
+
+    def clean(self):
+        cleaned = super().clean()
+        year_only = cleaned.get("year_only")
+        year = cleaned.get("year")
+        dt = cleaned.get("datetime")
+
+        if year_only:
+            if not year:
+                raise forms.ValidationError("Ange ett år")
+            cleaned["datetime"] = datetime(year, 1, 1)
+        else:
+            if not dt:
+                raise forms.ValidationError("Ange datum och tid")
+
+        return cleaned
+
 class EventDateInline(admin.TabularInline):
     model = EventDate
+    form = EventDateInlineForm
     extra = 1
-    fields = ['datetime']
-    ordering = ['datetime']
+    fields = ("year_only", "datetime", "year")
+    ordering = ("datetime",)
 
-
+    class Media:
+        js = ("admin/js/eventdate_inline.js",)
+        
 class EventMediaInline(admin.TabularInline):
     model = EventMedia
     extra = 1
