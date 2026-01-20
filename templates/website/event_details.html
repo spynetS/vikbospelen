@@ -62,73 +62,130 @@
 			<!-- Gallery -->
 			<div class="flex flex-wrap justify-center md:justify-start gap-5 mt-9">
 				{% for media in event.media.all %}
+				<div class="flex flex-col">
 					{% if media.media_type == 'image' %}
 						<img
 							class="rounded-lg h-[400px] cursor-pointer hover:scale-[1.01] duration-150"
 							src="{{ media.file.url }}"
 							alt="{{ media.caption }}"
 							onclick="openModal({{ forloop.counter0 }})"
-						/>
+							/>
+						{% else %}
+						<video
+							class="rounded-lg h-[400px] cursor-pointer hover:scale-[1.01] duration-150"
+							onclick="openModal({{ forloop.counter0 }})"
+							controls>
+							<source src="{{media.file.url}}" type="video/mp4">
+							Din webbläsare kan inte spela upp videos
+						</video> 
 					{% endif %}
+				  <p class="pl-5 pt-3 font-bold">{{media.caption}}</p>
+				</div>
 				{% endfor %}
 			</div>
 
 	{% endif %}
-	<!-- Modal -->
-	<div id="modal" class="fixed inset-0 bg-[#000000bf] bg-opacity-80 flex items-center justify-center z-50 hidden">
-		<button class="absolute top-4 right-4 text-white font-bold text-5xl hover:scale-[1.2] duration-150" onclick="closeModal()">×</button>
-		<div class="relative max-w-4xl w-full">
-			<img id="modalImage" class="mx-auto rounded-lg max-h-[90vh]" src="" alt="Modal Image" />
-			<div class="absolute top-1/2 left-0 transform -translate-y-1/2">
-				<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="prevImage()">❮</button>
+			<!-- Modal -->
+			<div id="modal" class="fixed inset-0 bg-[#000000bf] flex items-center justify-center z-50 hidden">
+				<button
+					class="absolute top-4 right-4 text-white font-bold text-5xl hover:scale-[1.2] duration-150"
+					onclick="closeModal()">
+					×
+				</button>
+
+				<div class="relative max-w-4xl w-full flex justify-center">
+					<img
+						id="modalImage"
+						class="mx-auto rounded-lg max-h-[90vh] hidden"
+						alt=""
+						/>
+
+					<video
+						id="modalVideo"
+						class="mx-auto rounded-lg max-h-[90vh] hidden"
+						controls>
+						<source id="modalVideoSource" type="video/mp4">
+						Din webbläsare kan inte spela upp videos
+					</video>
+
+					<div class="absolute top-1/2 left-0 -translate-y-1/2">
+						<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="prev()">❮</button>
+					</div>
+
+					<div class="absolute top-1/2 right-0 -translate-y-1/2">
+						<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="next()">❯</button>
+					</div>
+				</div>
 			</div>
-			<div class="absolute top-1/2 right-0 transform -translate-y-1/2">
-				<button class="text-white text-4xl px-4 hover:scale-[1.2] duration-150" onclick="nextImage()">❯</button>
-			</div>
-		</div>
-	</div>
+
 
 	<!-- JavaScript -->
-	<script>
-	 const images = [
-		 {% for media in event.media.all %}
-		 {% if media.media_type == 'image' %}
-		 "{{ media.file.url }}",
-		 {% endif %}
-		 {% endfor %}
-	 ];
 
-	 let currentIndex = 0;
+<script>
+	const media = [
+		{% for m in event.media.all %}
+		{
+			type: "{{ m.media_type }}",
+			url: "{{ m.file.url }}"
+		},
+		{% endfor %}
+	];
 
-	 function openModal(index) {
-		 currentIndex = index;
-		 document.getElementById('modal').classList.remove('hidden');
-		 updateModalImage();
-	 }
+	let currentIndex = 0;
 
-	 function closeModal() {
-		 document.getElementById('modal').classList.add('hidden');
-	 }
+	function openModal(index) {
+		currentIndex = index;
+		document.getElementById('modal').classList.remove('hidden');
+		updateModal();
+	}
 
-	 function updateModalImage() {
-		 const modalImage = document.getElementById('modalImage');
-		 modalImage.src = images[currentIndex];
-	 }
+	function closeModal() {
+		document.getElementById('modal').classList.add('hidden');
+		stopVideo();
+	}
 
-	 function nextImage() {
-		 currentIndex = (currentIndex + 1) % images.length;
-		 updateModalImage();
-	 }
+	function updateModal() {
+		const img = document.getElementById('modalImage');
+		const video = document.getElementById('modalVideo');
+		const videoSource = document.getElementById('modalVideoSource');
 
-	 function prevImage() {
-		 currentIndex = (currentIndex - 1 + images.length) % images.length;
-		 updateModalImage();
-	 }
+		img.classList.add('hidden');
+		video.classList.add('hidden');
+		stopVideo();
 
-	 // Optional: close modal on ESC key
-	 document.addEventListener('keydown', function (e) {
-		 if (e.key === 'Escape') closeModal();
-	 });
-	</script>
+		const item = media[currentIndex];
+
+		if (item.type === 'image') {
+			img.src = item.url;
+			img.classList.remove('hidden');
+		} else if (item.type === 'video') {
+			videoSource.src = item.url;
+			video.load();
+			video.classList.remove('hidden');
+		}
+	}
+
+	function next() {
+		currentIndex = (currentIndex + 1) % media.length;
+		updateModal();
+	}
+
+	function prev() {
+		currentIndex = (currentIndex - 1 + media.length) % media.length;
+		updateModal();
+	}
+
+	function stopVideo() {
+		const video = document.getElementById('modalVideo');
+		video.pause();
+		video.currentTime = 0;
+	}
+
+	document.addEventListener('keydown', e => {
+		if (e.key === 'Escape') closeModal();
+	});
+</script>
+
+			
 		</div>
 {% endblock %}
