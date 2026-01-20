@@ -26,7 +26,7 @@
 						<p class="font-bold mb-2">Spelperiod</p>
 						<div class="flex flex-wrap gap-2 ">
 							{% for date in event.dates.all %}
-								<p class="bg-blue-900 p-1 rounded-full" >{{ date.datetime|date:"Y-m-d H:i" }}</p>
+							<p class="bg-blue-900 p-1 rounded-full">{{ date }}</p>
 							{% endfor %}
 						</div>
 					</div>
@@ -78,8 +78,10 @@
 							<source src="{{media.file.url}}" type="video/mp4">
 							Din webbläsare kan inte spela upp videos
 						</video> 
-					{% endif %}
-				  <p class="pl-5 pt-3 font-bold">{{media.caption}}</p>
+						{% endif %}
+						{% if media.caption %}
+				    <p class="pl-5 pt-3 font-bold">{{media.caption}}</p>
+					  {% endif %}
 				</div>
 				{% endfor %}
 			</div>
