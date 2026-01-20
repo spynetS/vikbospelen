@@ -5,12 +5,10 @@
   <div id="view-{{ uid }}" class="relative hover:outline hover:outline-2 hover:outline-indigo-500 rounded transition-all">
     {% include component_template %}
     
-    <button onclick="openEditor('{{ uid }}')" 
-            class="absolute top-0 left-0 w-full h-full cursor-pointer z-10 bg-indigo-500/0 hover:bg-indigo-500/5 transition-colors">
-      <span class="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold shadow-lg flex items-center gap-1">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+      <span onclick="openEditor('{{ uid }}')" class="absolute -top-2 -right-2  opacity-0 group-hover:opacity-100 bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold shadow-lg flex items-center gap-1">
+        <svg   class="w-3 h-3 z-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
       </span>
-    </button>
+
   </div>
 
   <dialog id="editor-{{ uid }}" class="fixed inset-y-0 right-0 m-0 h-screen w-80 bg-white shadow-2xl border-l transform -translate-x-full transition-transform duration-300 backdrop:bg-black/20">
