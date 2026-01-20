@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
+{% load livepatch %}
+
 {% block content %}
 	<div class="mt-24 min-h-screen" >
 		<div class="container mx-auto flex flex-col gap-4 items-center" >
 			<h1 class="text-5xl">Om oss</h1>
-			<p>{{site_data.main_text}}</p>
+
+			{% render_component "livepatch/p.html" CONTENT=site_data.main_text %}
+
 
 			<div class="grid gri d-cols-4 gap-5 w-2/3 mt-12" >
 				{% for contact in contacts %}

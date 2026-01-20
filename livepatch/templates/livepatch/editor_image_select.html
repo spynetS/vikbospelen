@@ -1,0 +1,11 @@
+<label class="relative aspect-square group cursor-pointer">
+	<input type="radio" name="{{field}}" value="livepatch/{{ image.image }}" class="peer hidden" {% if image.image == current_value %}checked{% endif %}>
+	
+	<img src="/livepatch/{{ image.image }}" 
+			 class="w-full h-full object-cover rounded-lg border-2 border-transparent transition-all
+							peer-checked:border-indigo-600 peer-checked:ring-2 peer-checked:ring-indigo-600/20">
+	
+	<div class="absolute top-1 right-1 bg-indigo-600 text-white rounded-full p-0.5 opacity-0 peer-checked:opacity-100 transition-opacity">
+		<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+	</div>
+</label>

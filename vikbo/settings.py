@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    "livepatch",
+
     "website",
     "events",
     "mail",
     "bookings",
     "contact",
-    "pages"
+    "pages",
 
 ]
 

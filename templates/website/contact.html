@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 
+{% load livepatch %}
+
 {% block content %}
 	<div class="bg-[#a09341] w-screen min-h-screen pt-18 text-[#1a1a1a]">
 		<div class="container mx-auto pt-18  ">
 			<div class="flex flex-col gap-5 flex flex-col ">
 				<h1 class="text-5xl" >Kontakta oss</h1>
-				<p>Har du en fråga, ett förslag eller vill du bara komma i kontakt med oss? Använd kontaktformuläret nedan
-					så återkommer vi till dig så snart vi kan. Vi ser fram emot att höra från dig – oavsett om det gäller
-					föreställningar, samarbeten, bokningar eller något helt annat.</p>
-				<p>Vill du komma in kontakt med specifika personer kolla <a class="hover:text-blue-200 duration-100 text-blue-600 underline" href="/om-oss">här</a> för att se kontakt uppgifter </p>
+				{% render_component "livepatch/p.html" CONTENT="Har du en fråga, ett förslag eller vill du bara komma i kontakt med oss? Använd kontaktformuläret nedan så återkommer vi till dig så snart vi kan. Vi ser fram emot att höra från dig – oavsett om det gäller föreställningar, samarbeten, bokningar eller något helt annat." %}
 
-				<h2 class="text-5xl mt-5" >Vill du bli medlem?</h2>
-				<p >Är du intresserad av teater och vill bli en del av vår gemenskap? Vi välkomnar nya medlemmar –
-					både på och bakom scenen! Som medlem får du möjlighet att delta i våra produktioner, workshops
-					och andra evenemang.
-					Skriv att du vill bli medlem i meddelandefältet så kontaktar vi dig med mer information.</p>
+
+ 				<p>Vill du komma in kontakt med specifika personer kolla <a class="hover:text-blue-200 duration-100 text-blue-600 underline" href="/om-oss">här</a> för att se kontakt uppgifter </p>
+
+				{% render_component "livepatch/h2.html" class="text-5xl mt-5" CONTENT="Vill du vli medlem?" %}
+				{% render_component "livepatch/p.html" CONTENT="Är du intresserad av teater och vill bli en del av vår gemenskap? Vi välkomnar nya medlemmar – både på och bakom scenen! Som medlem får du möjlighet att delta i våra produktioner, workshops och andra evenemang.Skriv att du vill bli medlem i meddelandefältet så kontaktar vi dig med mer information." %}
+
+				
 
 			</div>
 			<div class="flex flex-col items-center w-full mt-5" >

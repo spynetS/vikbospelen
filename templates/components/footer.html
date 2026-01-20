@@ -1,3 +1,5 @@
+{% load livepatch %}
+
 <footer class="bg-gray-800 text-white ">
   <div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
 
@@ -18,8 +20,9 @@
 
     <div>
       <h4 class="font-semibold mb-2">Kontakt</h4>
-      <p>Email: <a href="mailto:info@vikbolandsspelet.se" class="hover:underline">info@vikbolandsspelet.se</a></p>
-      <p>Telefon: <a href="tel:+460702101824" class="hover:underline">070-210 18 24</a></p>
+      <p>Email: {% render_component "livepatch/a.html" href="mailto:info@vikbolandsspelet.se" class="hover:underline" CONTENT="info@vikbolandsspelet.se" %} </p>
+      <p>Telefon: {% render_component "livepatch/a.html" href="tel:+460702101824" class="hover:underline" CONTENT="070-210 18 24" %}
+			</p>
       <p class="mt-2 text-gray-400">© {{ now|date:"Y" }} Vikbolandsspelet</p>
     </div>
 

@@ -11,6 +11,7 @@ urlpatterns = [
     path("",include("events.urls")),
     path("mail/",include("mail.urls")),
     path("bookings/",include("bookings.urls")),
+    path("livepatch/",include("livepatch.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 

@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
+{% load livepatch %}
+
 {% block content %}
 
 	<section id="hero" class="bg-[url('/static/background.jpg')] bg-cover h-screen w-screen text-center" >
 		<div class="bg-[#00000025] absolute top-0 h-screen w-screen flex flex-col items-center justify-center" >
-			<h1 class="md:text-7xl text-3xl text-white italic text-shadow-xl">Välkommen till <br/> föreningen Vikbolandsspelet</h1>
-			<p class="text-xl text-gray-200 mt-4 font-serif" >Lokal kultur sedan 1983</p>
+			
+			{% render_component "livepatch/h1.html" class="md:text-7xl text-3xl text-white italic text-shadow-xl"  CONTENT="Välkommen till <br/> föreningen Vikbolandsspelet" %}
+			{% render_component "livepatch/p.html" class="text-xl text-gray-200 mt-4 font-serif"  CONTENT="Lokal kultur sedan 1983" %}
 
 			<div class="flex flex-row gap-4 mt-12" >
 				{% if last_3 %}
 				<button class="btn btn-primary" id="newestbtn" >Kommande föreställningar</button>
 				{% else %}
-				<a href="/forestallningar" class="btn btn-primary" id="newestbtn" >Föreställningar</a>
+				{% render_component "livepatch/a.html" href="/forestallningar" class="btn btn-primary"  CONTENT="Föreställningar" %}
 				{% endif %}
-				<a class="btn btn-secondary" href="#news">Nyheter</a>
+				{% render_component "livepatch/a.html" href="#news" class="btn btn-secondary"  CONTENT="Nyheter" %}
+
 			</div>
 		</div>
 	</section>
@@ -207,7 +211,8 @@
 		<div class=" md:container md:mx-auto md:grid md:grid-cols-2 pt-18 items-center h-full text-center md:text-start flex flex-col items-center" >
 			<div class="flex flex-col gap-2 md:gap-5 md:h-full md:pt-18 ">
 				<h2 id="kont" class="md:text-5xl text-2xl">Kontakta oss</h2>
-				<p>Har du en fråga, ett förslag eller vill du bara komma i kontakt med oss? Använd kontaktformuläret nedan så återkommer vi till dig så snart vi kan. Vi ser fram emot att höra från dig – oavsett om det gäller föreställningar, samarbeten, bokningar eller något helt annat.</p>
+				
+				{% render_component "livepatch/p.html" CONTENT="Har du en fråga, ett förslag eller vill du bara komma i kontakt med oss? Använd kontaktformuläret nedan så återkommer vi till dig så snart vi kan. Vi ser fram emot att höra från dig – oavsett om det gäller föreställningar, samarbeten, bokningar eller något helt annat." %}
 			</div>
 
 			<div class="md:h-full md:pt-18 pt-5 w-full"  >
@@ -215,37 +220,5 @@
 			</div>
 		</div>
 	</section>
-
-	<script>
-//	 gsap.registerPlugin(ScrollTrigger);
-//
-//	 const contact = gsap.timeline({
-//		 scrollTrigger: {
-//			 trigger: "#contact",
-//			 start: "top center",
-//			 end: "+=50%",
-//			 scrub: true,
-//		 }
-//	 });
-//
-//	 // Animate the title first
-//	 contact.from("#contact h2", {
-//		 x: () => window.innerWidth / 2 - document.querySelector("#contact h2").offsetLeft + 100,
-//		 y: 40,
-//		 duration: 1,
-//		 scale:2,
-//		 ease: "power2.out"
-//	 });
-//	 contact.from("#contact p",{
-//		 opacity:0,
-//		 y:40,
-//	 })
-//	 contact.from(".contact-form",{
-//		 scale:0,
-//	 })
-//
-
-	</script>
-
 
 {% endblock %}
