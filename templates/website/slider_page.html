@@ -23,7 +23,7 @@
 				   oninput="document.getElementById('yearLabel').innerText = this.value">
 
 			<div class="text-gray-700 mt-2 text-center">
-				Valt år: <span id="yearLabel">2024</span>
+				Valt år: <span id="yearLabel"></span>
 			</div>
 
 			<!-- Dots Timeline -->
@@ -45,6 +45,7 @@
 		</div>
 	</div>
 	<script>
+    document.getElementById("yearLabel").textContent = new Date().getFullYear();
 	 function selectYear(year) {
 		 const slider = document.getElementById('yearRange');
 		 slider.value = year;

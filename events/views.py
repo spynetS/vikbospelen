@@ -48,6 +48,7 @@ def plays_over_time(request):
         "selected_year": year,
     }
 
+    # if we should replace the list for a searchfor example
     if request.headers.get("HX-Request"):
         return render(request, "components/event_list.html", context)
 
