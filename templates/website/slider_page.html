@@ -45,7 +45,14 @@
 		</div>
 	</div>
 	<script>
+    // update the years to this year
     document.getElementById("yearLabel").textContent = new Date().getFullYear();
+    const yearRange = document.getElementById("yearRange");
+    const currentYear = new Date().getFullYear();
+
+    yearRange.max = currentYear;
+    yearRange.value = currentYear;
+
 	 function selectYear(year) {
 		 const slider = document.getElementById('yearRange');
 		 slider.value = year;
